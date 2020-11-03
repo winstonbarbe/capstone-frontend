@@ -1,5 +1,5 @@
 <template>
-  <div app="users-show">
+  <div class="users-show">
     <img :src="user.image_url" :alt="user.first_name" />
     <h1>{{ user.first_name }}</h1>
     <!-- For age add moment js -->
