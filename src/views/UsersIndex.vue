@@ -6,10 +6,12 @@
       <router-link :to="`/users/${user.id}`"
         ><img :src="user.image_url" :alt="user.first_name"
       /></router-link>
+
+      <!-- For age add moment js -->
       <p>
         <strong>{{ user.first_name }}</strong
         ><br />
-        {{ user.pronouns }}
+        {{ user.pronouns }} {{ user.birth_date }}
       </p>
       <p>
         <strong><u>Signs</u></strong
