@@ -5,7 +5,7 @@
     <!-- For age add moment js -->
     <p>
       (<i>{{ user.pronouns }}</i
-      >) {{ user.birth_date }}
+      >) <i>{{ age(user.birth_date) }}</i>
     </p>
     <p v-if="user.ranking > 7">Compatibility: <strong>Super</strong></p>
     <p>
@@ -38,6 +38,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
   data: function() {
@@ -50,6 +51,11 @@ export default {
       console.log(response.data);
       this.user = response.data;
     });
+  },
+  methods: {
+    age: function(birthDate) {
+      return moment().diff(birthDate, "years");
+    },
   },
 };
 </script>

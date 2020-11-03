@@ -11,7 +11,8 @@
       <p>
         <strong>{{ user.first_name }}</strong
         ><br />
-        {{ user.pronouns }} {{ user.birth_date }}
+        (<i>{{ user.pronouns }}</i
+        >) <i>{{ age(user.birth_date) }}</i>
       </p>
       <p>
         <strong><u>Signs</u></strong
@@ -50,6 +51,7 @@ ul {
 
 <script>
 import axios from "axios";
+import moment from "moment";
 export default {
   data: function() {
     return {
@@ -61,6 +63,11 @@ export default {
       console.log(response.data);
       this.users = response.data;
     });
+  },
+  methods: {
+    age: function(birthDate) {
+      return moment().diff(birthDate, "years");
+    },
   },
 };
 </script>
