@@ -5,6 +5,8 @@ import About from "../views/About.vue";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
+import UsersIndex from "../views/UsersIndex.vue";
+
 
 Vue.use(VueRouter);
 
@@ -32,7 +34,13 @@ const routes = [
   { 
     path: "/logout", 
     name: "logout", 
-    component: Logout }
+    component: Logout 
+  },
+  { 
+    path: "/users", 
+    name: "user-index", 
+    component: UsersIndex 
+  }
 ];
 
 
@@ -40,6 +48,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;

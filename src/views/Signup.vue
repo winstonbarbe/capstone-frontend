@@ -60,6 +60,12 @@ export default {
       axios
         .post("/api/users", params)
         .then((response) => {
+          var user = response.data;
+          axios.post("/api/sessions", params).then((response) => {
+            axios.defaults.headers.common["Authorization"] =
+              "Bearer " + response.data.jwt;
+            localStorage.setItem("jwt", response.data.jwt);
+          });
           this.$router.push("/login");
         })
         .catch((error) => {
