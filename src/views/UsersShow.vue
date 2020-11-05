@@ -31,8 +31,11 @@
       <strong>About:</strong><br />
       {{ user.bio }}
     </p>
-
-    <p></p>
+    <router-link
+      v-if="user.id == $parent.getUserId()"
+      :to="`/users/${user.id}/edit`"
+      >Edit</router-link
+    >
   </div>
 </template>
 

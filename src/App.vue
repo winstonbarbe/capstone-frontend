@@ -2,11 +2,14 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/users">Users</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/signup">Signup</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/logout">Logout</router-link>
+      <router-link v-if="isLoggedIn()" to="/users">Users</router-link>
+      <span v-if="isLoggedIn()"> | </span>
+      <router-link v-if="isLoggedIn()" :to="`/users/${getUserId()}`"
+        >My Account</router-link
+      >
+      <router-link v-if="!isLoggedIn()" to="/signup">Signup</router-link> |
+      <router-link v-if="!isLoggedIn()" to="/login">Login</router-link>
+      <router-link v-if="isLoggedIn()" to="/logout">Logout</router-link>
     </div>
     <router-view />
   </div>
@@ -34,3 +37,16 @@
   color: #42b983;
 }
 </style>
+
+<script>
+export default {
+  methods: {
+    isLoggedIn: function() {
+      return localStorage.getItem("jwt");
+    },
+    getUserId: function() {
+      return parseInt(localStorage.getItem("user_id"));
+    },
+  },
+};
+</script>
