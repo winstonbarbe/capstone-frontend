@@ -1,60 +1,101 @@
 <template>
   <div class="users-edit">
-    {{ user }}
     <form v-on:submit.prevent="updateUser()">
       <h1>Edit User</h1>
-      <!-- Example of dropdown select, What is class and id of dropdown all about -->
-      <!-- <div class="form-group">
-        <label for="exampleFormControlSelect1">Example select</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div> -->
 
       <!-- Astrological Info -->
-      <!-- Turn all of these to dropdown select menus -->
       <div class="form-group">
-        <label>Sun Sign:</label>
-        <input type="text" class="form-control" v-model="user.sun_sign" />
+        <label>Sun Sign: </label>
+        <select class="form-control" v-model="user.sun_sign">
+          <option v-if="!user.sun_sign" disabled></option>
+          <option value="Aries">Aries</option>
+          <option value="Taurus">Taurus</option>
+          <option value="Gemini">Gemini</option>
+          <option value="Cancer">Cancer</option>
+          <option value="Leo">Leo</option>
+          <option value="Virgo">Virgo</option>
+          <option value="Libra">Libra</option>
+          <option value="Scorpio">Scorpio</option>
+          <option value="Sagittarius">Sagittarius</option>
+          <option value="Capricorn">Capricorn</option>
+          <option value="Aquarius">Aquarius</option>
+          <option value="Pisces">Pisces</option>
+        </select>
       </div>
+
       <div class="form-group">
-        <label>Moon Sign:</label>
-        <input type="text" class="form-control" v-model="user.moon_sign" />
+        <label>Moon Sign: </label>
+        <select class="form-control" v-model="user.moon_sign">
+          <option v-if="!user.moon_sign" disabled></option>
+          <option value="Aries">Aries</option>
+          <option value="Taurus">Taurus</option>
+          <option value="Gemini">Gemini</option>
+          <option value="Cancer">Cancer</option>
+          <option value="Leo">Leo</option>
+          <option value="Virgo">Virgo</option>
+          <option value="Libra">Libra</option>
+          <option value="Scorpio">Scorpio</option>
+          <option value="Sagittarius">Sagittarius</option>
+          <option value="Capricorn">Capricorn</option>
+          <option value="Aquarius">Aquarius</option>
+          <option value="Pisces">Pisces</option>
+        </select>
       </div>
+
       <div class="form-group">
-        <label>Ascending Sign:</label>
-        <input type="text" class="form-control" v-model="user.ascending_sign" />
+        <label>Ascending Sign: </label>
+        <select class="form-control" v-model="user.ascending_sign">
+          <option v-if="!user.ascending_sign" disabled></option>
+          <option value="Aries">Aries</option>
+          <option value="Taurus">Taurus</option>
+          <option value="Gemini">Gemini</option>
+          <option value="Cancer">Cancer</option>
+          <option value="Leo">Leo</option>
+          <option value="Virgo">Virgo</option>
+          <option value="Libra">Libra</option>
+          <option value="Scorpio">Scorpio</option>
+          <option value="Sagittarius">Sagittarius</option>
+          <option value="Capricorn">Capricorn</option>
+          <option value="Aquarius">Aquarius</option>
+          <option value="Pisces">Pisces</option>
+        </select>
       </div>
       <!-- Personal Prefence and info -->
       <!-- Gender should be dropdown -->
       <div class="form-group">
-        <label>Gender:</label>
-        <input type="text" class="form-control" v-model="user.gender" />
+        <label>Gender: </label>
+        <select class="form-control" v-model="user.gender">
+          <option v-if="!user.gender" disabled></option>
+          <option value="Female">Female</option>
+          <option value="NB">NB</option>
+          <option value="Male">Male</option>
+        </select>
       </div>
+
       <!-- Interested In should be dropdown -->
       <div class="form-group">
-        <label>Interested In:</label>
-        <input type="text" class="form-control" v-model="user.interested_in" />
+        <label>Interested In: </label>
+        <select class="form-control" v-model="user.interested_in">
+          <option v-if="!user.interested_in" disabled></option>
+          <option value="All">All</option>
+          <option value="Men">Men</option>
+          <option value="Women">Women</option>
+        </select>
       </div>
+
       <!-- Pronouns MAYBE should be dropdown -->
       <div class="form-group">
-        <label>Pronouns:</label>
-        <input type="text" class="form-control" v-model="user.pronouns" />
+        <label>Pronouns: </label>
+        <select class="form-control" v-model="user.pronouns">
+          <option v-if="!user.pronouns" disabled></option>
+          <option value="He/Him">He/Him</option>
+          <option value="She/Her">She/Her</option>
+          <option value="They/Them">They/Them</option>
+        </select>
       </div>
       <!-- Birthday select should be refined -->
       <div class="form-group">
-        <label>Birth Date:</label>
+        <label>Birth Date: </label>
         <input type="text" class="form-control" v-model="user.birth_date" />
       </div>
       <!-- Current Location should be able to get actual Location -->
@@ -119,6 +160,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      sunSign: "",
       oldPassword: "",
       newPassword: "",
       newPasswordConfirmation: "",
@@ -130,6 +172,7 @@ export default {
     axios.get(`/api/users/${this.$route.params.id}`).then((response) => {
       console.log(response.data);
       this.user = response.data;
+      this.sunSign = this.user.sun_sign;
     });
   },
   methods: {
@@ -141,7 +184,7 @@ export default {
         old_password: this.oldPassword,
         new_password: this.newPassword,
         new_password_confirmation: this.newPasswordConfirmation,
-        sun_sign: this.user.sun_sign,
+        sun_sign: this.sunSign,
         moon_sign: this.user.moon_sign,
         ascending_sign: this.user.ascending_sign,
         gender: this.user.gender,
