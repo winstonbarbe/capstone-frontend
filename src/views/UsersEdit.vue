@@ -1,14 +1,16 @@
 <template>
   <div class="users-edit">
     <form v-on:submit.prevent="updateUser()">
-      <h1>Edit User</h1>
       <h1>Edit Recipe</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
 
       <!-- Astrological Info -->
+
+      <!-- Sun Sign -->
       <div class="form-group">
+        {{ user.sun_sign }}
         <label>Sun Sign: </label>
         <select class="form-control" v-model="user.sun_sign">
           <option v-if="!user.sun_sign" disabled></option>
@@ -27,6 +29,7 @@
         </select>
       </div>
 
+      <!-- Moon Sign -->
       <div class="form-group">
         <label>Moon Sign: </label>
         <select class="form-control" v-model="user.moon_sign">
@@ -46,6 +49,7 @@
         </select>
       </div>
 
+      <!-- Ascending Sign -->
       <div class="form-group">
         <label>Ascending Sign: </label>
         <select class="form-control" v-model="user.ascending_sign">
@@ -64,6 +68,7 @@
           <option value="Pisces">Pisces</option>
         </select>
       </div>
+
       <!-- Personal Prefence and info -->
       <!-- Gender should be dropdown -->
       <div class="form-group">
@@ -76,7 +81,7 @@
         </select>
       </div>
 
-      <!-- Interested In should be dropdown -->
+      <!-- Interested In Dropdown Select -->
       <div class="form-group">
         <label>Interested In: </label>
         <select class="form-control" v-model="user.interested_in">
@@ -87,7 +92,7 @@
         </select>
       </div>
 
-      <!-- Pronouns MAYBE should be dropdown -->
+      <!-- Pronouns Dropdown Select -->
       <div class="form-group">
         <label>Pronouns: </label>
         <select class="form-control" v-model="user.pronouns">
@@ -97,12 +102,15 @@
           <option value="They/Them">They/Them</option>
         </select>
       </div>
+
       <!-- Birthday select should be refined -->
       <div class="form-group">
         <label>Birth Date: </label>
         <input type="text" class="form-control" v-model="user.birth_date" />
       </div>
+
       <!-- Current Location should be able to get actual Location -->
+      <!-- At least by searchable thru dropdown and stuff like that -->
       <div class="form-group">
         <label>Current Location:</label>
         <input
@@ -111,6 +119,7 @@
           v-model="user.current_location"
         />
       </div>
+
       <!-- Add warning message or info about bio length -->
       <div class="form-group">
         <label>Bio:</label>
@@ -123,6 +132,7 @@
       </div>
 
       <!-- Account Information -->
+      <!-- Maybe have a button for updating Names -->
       <div class="form-group">
         <label>First Name:</label>
         <input type="text" class="form-control" v-model="user.first_name" />
@@ -135,9 +145,9 @@
         <label>Email:</label>
         <input type="text" class="form-control" v-model="user.email" />
       </div>
+
       <!-- Password -->
       <!-- Show password only when attempting to change password and add warnings and stuff -->
-
       <div class="form-group">
         <label>Old Password:</label>
         <input type="password" class="form-control" v-model="oldPassword" />
@@ -154,7 +164,19 @@
           v-model="newPasswordConfirmation"
         />
       </div>
-      <input type="submit" class="btn btn-warning" value="Update" />
+
+      <!-- Buttons -->
+      <!-- Currently there seems to be a error occuring because I think  it trie to update when I hit the delete button. Not breaking anything -->
+      <span>
+        <!-- Update Button -->
+        <input type="submit" class="btn btn-warning" value="Update" />
+        |
+        <!-- Delete Button -->
+
+        <button v-on:click="destroyUser()">
+          Delete Account
+        </button>
+      </span>
     </form>
   </div>
 </template>
@@ -189,7 +211,7 @@ export default {
         old_password: this.oldPassword,
         new_password: this.newPassword,
         new_password_confirmation: this.newPasswordConfirmation,
-        sun_sign: this.sunSign,
+        sun_sign: this.user.sun_sign,
         moon_sign: this.user.moon_sign,
         ascending_sign: this.user.ascending_sign,
         gender: this.user.gender,
@@ -200,7 +222,6 @@ export default {
         bio: this.user.bio,
         image_url: this.user.image_url,
       };
-      // if (old_password) {}
       axios
         .patch(`/api/users/${this.user.id}`, params)
         .then((response) => {
@@ -209,6 +230,14 @@ export default {
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
+    },
+    destroyUser: function() {
+      axios.delete(`/api/users/${this.user.id}`).then((response) => {
+        console.log("Account Destroyed", response.data);
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("user_id");
+        this.$router.push("/");
+      });
     },
   },
 };
