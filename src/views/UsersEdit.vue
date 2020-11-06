@@ -2,6 +2,10 @@
   <div class="users-edit">
     <form v-on:submit.prevent="updateUser()">
       <h1>Edit User</h1>
+      <h1>Edit Recipe</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
 
       <!-- Astrological Info -->
       <div class="form-group">
@@ -133,18 +137,19 @@
       </div>
       <!-- Password -->
       <!-- Show password only when attempting to change password and add warnings and stuff -->
+
       <div class="form-group">
         <label>Old Password:</label>
-        <input type="text" class="form-control" v-model="oldPassword" />
+        <input type="password" class="form-control" v-model="oldPassword" />
       </div>
       <div class="form-group">
         <label>New Password:</label>
-        <input type="text" class="form-control" v-model="newPassword" />
+        <input type="password" class="form-control" v-model="newPassword" />
       </div>
       <div class="form-group">
         <label>New Password Confirmation:</label>
         <input
-          type="text"
+          type="password"
           class="form-control"
           v-model="newPasswordConfirmation"
         />

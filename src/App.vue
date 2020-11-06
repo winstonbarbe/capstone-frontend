@@ -47,6 +47,11 @@ export default {
     getUserId: function() {
       return parseInt(localStorage.getItem("user_id"));
     },
+    currentUser: function(user) {
+      if (user.id === this.getUserId()) {
+        return true;
+      }
+    },
   },
 };
 </script>
