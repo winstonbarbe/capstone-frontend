@@ -3,7 +3,9 @@
     <!-- Mutual Match Data  -->
     <!-- Matches should be sorted by either updated at or Last message  -->
     <h1>Mutual Matches</h1>
+    <p v-if="mutualMatches.length === 0">No matches yet</p>
     <div v-for="mutualMatch in mutualMatches">
+      {{ mutualMatch }}
       <!-- V if statement to show user that is not the Current User -->
       <div v-if="mutualMatch.sender.id !== $parent.getUserId()">
         <!-- Router Link redirects to match show -->
@@ -16,6 +18,13 @@
           (<i>{{ mutualMatch.sender.pronouns }}</i
           >) <i>{{ $parent.age(mutualMatch.sender.birth_date) }}</i>
         </p>
+        <!--         
+        {{ mutualMatch.last_message.sender.first_name }} -->
+
+        <!-- How do I get the last message displayed -->
+        <!-- <span v-if="mutualMatch.last_message.length > 0">
+          {{ mutualMatch.last_message.sender.first_name }}:
+        </span> -->
         <p>
           <strong><u>Signs</u></strong
           >:
@@ -85,95 +94,63 @@
           {{ mutualMatch.recipient.bio }}
         </p>
       </div>
+      <button v-on:click="unmatch(mutualMatches, mutualMatch)">Unmatch</button>
+      <br />
+      <br />
     </div>
 
     <!-- Received Matches Data -->
     <!-- Received Matches Should be sort with most recent first -->
     <h1>Received Matches</h1>
-    <div v-for="receivedMatch in receivedMatches">
-      <!-- V if statement to show user that is not the Current User -->
-      <div v-if="receivedMatch.sender.id !== $parent.getUserId()">
-        <!-- Router Link redirects to match show -->
-        <router-link :to="`/matches/${receivedMatch.id}`"
-          ><img :src="`${receivedMatch.sender.image_url}`" alt=""
-        /></router-link>
-        <p>
-          <strong>{{ receivedMatch.sender.first_name }}</strong
-          ><br />
-          (<i>{{ receivedMatch.sender.pronouns }}</i
-          >) <i>{{ $parent.age(receivedMatch.sender.birth_date) }}</i>
-        </p>
-        <p>
-          <strong><u>Signs</u></strong
-          >:
-        </p>
-        <ul>
-          <li>
-            Sun: <strong>{{ receivedMatch.sender.sun_sign }}</strong>
-          </li>
-          <li>
-            Moon: <strong>{{ receivedMatch.sender.moon_sign }}</strong>
-          </li>
-          <li>
-            Ascendent:
-            <strong>{{ receivedMatch.sender.ascending_sign }}</strong>
-          </li>
-        </ul>
-        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <!-- <p v-if="receivedMatch.sender.ranking > 0">
-        Compatibility: <strong>Super</strong>
-      </p> -->
-        <p>
-          Location: <strong>{{ receivedMatch.sender.current_location }}</strong>
-        </p>
-        <p>
-          <strong>About:</strong><br />
-          {{ receivedMatch.sender.bio }}
-        </p>
-      </div>
 
-      <!-- V Else called to show non current User information -->
-      <div v-else>
-        <!-- Router Link redirects to match show -->
-        <router-link :to="`/matches/${receivedMatch.id}`"
-          ><img :src="`${receivedMatch.recipient.image_url}`" alt=""
-        /></router-link>
-        <p>
-          <strong>{{ receivedMatch.recipient.first_name }}</strong
-          ><br />
-          (<i>{{ receivedMatch.recipient.pronouns }}</i
-          >) <i>{{ $parent.age(receivedMatch.recipient.birth_date) }}</i>
-        </p>
-        <p>
-          <strong><u>Signs</u></strong
-          >:
-        </p>
-        <ul>
-          <li>
-            Sun: <strong>{{ receivedMatch.recipient.sun_sign }}</strong>
-          </li>
-          <li>
-            Moon: <strong>{{ receivedMatch.recipient.moon_sign }}</strong>
-          </li>
-          <li>
-            Ascendent:
-            <strong>{{ receivedMatch.recipient.ascending_sign }}</strong>
-          </li>
-        </ul>
-        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <!-- <p v-if="receivedMatch.recipient.ranking > 0">
+    <p v-if="receivedMatches.length === 0">No matches yet</p>
+
+    <div v-for="receivedMatch in receivedMatches">
+      <!-- Received only get send if you are the recipient -->
+      <!-- Router Link redirects to match show -->
+      <router-link :to="`/matches/${receivedMatch.id}`"
+        ><img :src="`${receivedMatch.sender.image_url}`" alt=""
+      /></router-link>
+      <p>
+        <strong>{{ receivedMatch.sender.first_name }}</strong
+        ><br />
+        (<i>{{ receivedMatch.sender.pronouns }}</i
+        >) <i>{{ $parent.age(receivedMatch.sender.birth_date) }}</i>
+      </p>
+      <p>
+        <strong><u>Signs</u></strong
+        >:
+      </p>
+      <ul>
+        <li>
+          Sun: <strong>{{ receivedMatch.sender.sun_sign }}</strong>
+        </li>
+        <li>
+          Moon: <strong>{{ receivedMatch.sender.moon_sign }}</strong>
+        </li>
+        <li>
+          Ascendent:
+          <strong>{{ receivedMatch.sender.ascending_sign }}</strong>
+        </li>
+      </ul>
+      <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
+      <!-- <p v-if="receivedMatch.sender.ranking > 0">
         Compatibility: <strong>Super</strong>
       </p> -->
-        <p>
-          Location:
-          <strong>{{ receivedMatch.recipient.current_location }}</strong>
-        </p>
-        <p>
-          <strong>About:</strong><br />
-          {{ receivedMatch.recipient.bio }}
-        </p>
-      </div>
+      <p>
+        Location: <strong>{{ receivedMatch.sender.current_location }}</strong>
+      </p>
+      <p>
+        <strong>About:</strong><br />
+        {{ receivedMatch.sender.bio }}
+      </p>
+      <button v-on:click="unmatch(receivedMatches, receivedMatch)">
+        Reject
+      </button>
     </div>
+
+    <br />
+    <br />
   </div>
 </template>
 
@@ -197,6 +174,20 @@ export default {
     axios.get(`/api/matches`).then((response) => {
       this.mutualMatches = response.data.mutual_matches;
     });
+  },
+  methods: {
+    unmatch: function(matches, match) {
+      var params = {
+        mutual: -1,
+      };
+      axios.patch(`/api/matches/${match.id}`, params).then((response) => {
+        console.log("Unmatched", response.data);
+        var index = matches.indexOf(match);
+        matches.splice(index, 1);
+        // I want the match to poof away
+        // this.$router.push("/matches");
+      });
+    },
   },
 };
 </script>
