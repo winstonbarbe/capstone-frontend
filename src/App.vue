@@ -2,7 +2,9 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link v-if="isLoggedIn()" to="/users">Users</router-link>
+      <router-link v-if="isLoggedIn()" to="/users">Compatibles</router-link>
+      <span v-if="isLoggedIn()"> | </span>
+      <router-link v-if="isLoggedIn()" to="/matches">Matches</router-link>
       <span v-if="isLoggedIn()"> | </span>
       <router-link v-if="isLoggedIn()" :to="`/users/${getUserId()}`"
         >My Account</router-link
@@ -39,6 +41,7 @@
 </style>
 
 <script>
+import moment from "moment";
 export default {
   methods: {
     isLoggedIn: function() {
@@ -51,6 +54,9 @@ export default {
       if (user.id === this.getUserId()) {
         return true;
       }
+    },
+    age: function(birthDate) {
+      return moment().diff(birthDate, "years");
     },
   },
 };

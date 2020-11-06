@@ -1,6 +1,7 @@
 <template>
   <div class="users-show">
     <img :src="user.image_url" :alt="user.first_name" />
+
     <h1>
       {{ user.first_name }}
       <span v-if="$parent.currentUser(user)">{{ user.last_name }}</span>
@@ -8,7 +9,7 @@
     <!-- For age add moment js -->
     <p>
       (<i>{{ user.pronouns }}</i
-      >) <i>{{ age(user.birth_date) }}</i>
+      >) <i>{{ $parent.age(user.birth_date) }}</i>
     </p>
     <p v-if="user.ranking > 7">Compatibility: <strong>Super</strong></p>
     <p>
@@ -51,7 +52,6 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 
 export default {
   data: function() {
@@ -65,10 +65,6 @@ export default {
       this.user = response.data;
     });
   },
-  methods: {
-    age: function(birthDate) {
-      return moment().diff(birthDate, "years");
-    },
-  },
+  methods: {},
 };
 </script>

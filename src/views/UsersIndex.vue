@@ -12,7 +12,7 @@
         <strong>{{ user.first_name }}</strong
         ><br />
         (<i>{{ user.pronouns }}</i
-        >) <i>{{ age(user.birth_date) }}</i>
+        >) <i>{{ $parent.age(user.birth_date) }}</i>
       </p>
       <p>
         <strong><u>Signs</u></strong
@@ -64,10 +64,6 @@ export default {
       this.users = response.data;
     });
   },
-  methods: {
-    age: function(birthDate) {
-      return moment().diff(birthDate, "years");
-    },
-  },
+  methods: {},
 };
 </script>
