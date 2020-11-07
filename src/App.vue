@@ -58,6 +58,9 @@ export default {
     age: function(birthDate) {
       return moment().diff(birthDate, "years");
     },
+    lastMessageSent: function(createdAt) {
+      return moment().diff(createdAt, "hours");
+    },
   },
 };
 </script>

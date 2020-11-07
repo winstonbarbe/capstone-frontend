@@ -6,7 +6,10 @@
     <p v-if="mutualMatches.length === 0">No matches yet</p>
     <div v-for="mutualMatch in mutualMatches">
       {{ mutualMatch }}
+      _________________
+      {{ mutualMatch.last_message.sender.first_name }}
       <!-- V if statement to show user that is not the Current User -->
+
       <div v-if="mutualMatch.sender.id !== $parent.getUserId()">
         <!-- Router Link redirects to match show -->
         <router-link :to="`/matches/${mutualMatch.id}`"
@@ -15,16 +18,23 @@
         <p>
           <strong>{{ mutualMatch.sender.first_name }}</strong
           ><br />
+          {{ mutualMatch.last_message.sender.first_name }}
           (<i>{{ mutualMatch.sender.pronouns }}</i
           >) <i>{{ $parent.age(mutualMatch.sender.birth_date) }}</i>
         </p>
-        <!--         
-        {{ mutualMatch.last_message.sender.first_name }} -->
-
-        <!-- How do I get the last message displayed -->
-        <!-- <span v-if="mutualMatch.last_message.length > 0">
-          {{ mutualMatch.last_message.sender.first_name }}:
-        </span> -->
+        <!-- Last Message -->
+        <p>
+          <strong><u>Last Message</u></strong
+          >:
+        </p>
+        <p>
+          <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
+          {{ mutualMatch.last_message.body }}
+          <i
+            >{{ $parent.lastMessageSent(mutualMatch.last_message.sent) }} hours
+            ago</i
+          >
+        </p>
         <p>
           <strong><u>Signs</u></strong
           >:
