@@ -52,6 +52,11 @@
         <i>{{ sent(message.sent) }}</i>
       </p>
     </div>
+    <!-- Message Create -->
+
+    <textarea v-model="newMessage" placeholder="new message..."></textarea>
+    <br />
+    <button v-on:click="sendMessage()">Send</button>
   </div>
 </template>
 
@@ -61,7 +66,11 @@ import moment from "moment";
 export default {
   data: function() {
     return {
-      mutualMatch: {},
+      newMessage: "",
+      mutualMatch: {
+        recipient: {},
+        sender: {},
+      },
     };
   },
   created: function() {
@@ -77,6 +86,17 @@ export default {
   methods: {
     sent: function(createdAt) {
       return moment(createdAt).format("lll");
+    },
+    sendMessage: function() {
+      var params = {
+        match_id: this.mutualMatch.id,
+        body: this.newMessage,
+      };
+      axios.post("api/messages", params).then((response) => {
+        console.log(response.data);
+        this.mutualMatch.messages.push(response.data);
+        this.newMessage = "";
+      });
     },
   },
 };
