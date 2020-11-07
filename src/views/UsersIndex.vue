@@ -37,6 +37,7 @@
         <strong>About:</strong><br />
         {{ user.bio }}
       </p>
+      <button v-on:click="match(user)">Match</button>
 
       <p>------------------------------------------------</p>
     </div>
@@ -64,6 +65,17 @@ export default {
       this.users = response.data;
     });
   },
-  methods: {},
+  methods: {
+    match: function(recipient) {
+      var params = {
+        recipient_id: recipient.id,
+      };
+      axios.post(`/api/matches`, params).then((response) => {
+        console.log("Match Created", response.data);
+        var index = this.users.indexOf(recipient);
+        this.users.splice(index, 1);
+      });
+    },
+  },
 };
 </script>

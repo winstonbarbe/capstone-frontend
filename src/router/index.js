@@ -8,6 +8,7 @@ import UsersIndex from "../views/UsersIndex.vue";
 import UsersShow from "../views/UsersShow.vue";
 import UsersEdit from "../views/UsersEdit.vue";
 import MatchesIndex from "../views/MatchesIndex.vue";
+import MatchesShow from "../views/MatchesShow.vue";
 
 
 Vue.use(VueRouter);
@@ -52,6 +53,11 @@ const routes = [
     path: "/matches", 
     name: "matches-index", 
     component: MatchesIndex
+  },
+  { 
+    path: "/matches/:id", 
+    name: "matches-show", 
+    component: MatchesShow
   }
 ];
 
