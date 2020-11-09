@@ -5,11 +5,7 @@
     <h1>Mutual Matches</h1>
     <p v-if="mutualMatches.length === 0">No matches yet</p>
     <div v-for="mutualMatch in mutualMatches">
-      {{ mutualMatch }}
-      _________________
-      {{ mutualMatch.last_message.sender.first_name }}
       <!-- V if statement to show user that is not the Current User -->
-
       <div v-if="mutualMatch.sender.id !== $parent.getUserId()">
         <!-- Router Link redirects to match show -->
         <router-link :to="`/matches/${mutualMatch.id}`"
@@ -18,7 +14,7 @@
         <p>
           <strong>{{ mutualMatch.sender.first_name }}</strong
           ><br />
-          {{ mutualMatch.last_message.sender.first_name }}
+
           (<i>{{ mutualMatch.sender.pronouns }}</i
           >) <i>{{ $parent.age(mutualMatch.sender.birth_date) }}</i>
         </p>
@@ -27,14 +23,17 @@
           <strong><u>Last Message</u></strong
           >:
         </p>
-        <p>
-          <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
-          {{ mutualMatch.last_message.body }}
-          <i
-            >{{ $parent.lastMessageSent(mutualMatch.last_message.sent) }} hours
-            ago</i
-          >
-        </p>
+
+        <!-- <p>
+            <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
+            {{ mutualMatch.last_message.body }}
+            <i
+              >{{
+                $parent.lastMessageSent(mutualMatch.last_message.sent)
+              }}
+              hours ago</i
+            >
+          </p> -->
         <p>
           <strong><u>Signs</u></strong
           >:
@@ -47,7 +46,8 @@
             Moon: <strong>{{ mutualMatch.sender.moon_sign }}</strong>
           </li>
           <li>
-            Ascendent: <strong>{{ mutualMatch.sender.ascending_sign }}</strong>
+            Ascendent:
+            <strong>{{ mutualMatch.sender.ascending_sign }}</strong>
           </li>
         </ul>
         <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
@@ -61,6 +61,9 @@
           <strong>About:</strong><br />
           {{ mutualMatch.sender.bio }}
         </p>
+        <button v-on:click="unmatch(mutualMatch)">Unmatch</button>
+        <br />
+        <br />
       </div>
 
       <!-- V Else called to show non current User information -->
@@ -103,10 +106,10 @@
           <strong>About:</strong><br />
           {{ mutualMatch.recipient.bio }}
         </p>
+        <button v-on:click="unmatch(mutualMatch)">Unmatch</button>
+        <br />
+        <br />
       </div>
-      <button v-on:click="unmatch(mutualMatches, mutualMatch)">Unmatch</button>
-      <br />
-      <br />
     </div>
 
     <!-- Received Matches Data -->
@@ -118,7 +121,7 @@
     <div v-for="receivedMatch in receivedMatches">
       <!-- Received only get send if you are the recipient -->
       <!-- Router Link redirects to match show -->
-      <router-link :to="`/matches/${receivedMatch.id}`"
+      <router-link :to="`/users/${receivedMatch.sender.id}`"
         ><img :src="`${receivedMatch.sender.image_url}`" alt=""
       /></router-link>
       <p>
@@ -154,13 +157,13 @@
         <strong>About:</strong><br />
         {{ receivedMatch.sender.bio }}
       </p>
-      <button v-on:click="unmatch(receivedMatches, receivedMatch)">
+      <!-- <button v-on:click="unmatch(receivedMatch)">
         Reject
+      </button> -->
+      <button v-on:click="acceptMatch(receivedMatch)">
+        Accept
       </button>
     </div>
-
-    <br />
-    <br />
   </div>
 </template>
 
@@ -169,34 +172,53 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      receivedMatches: [],
+      errors: [],
       mutualMatches: [],
-      user: [],
+      receivedMatches: [],
+      // user: [],
     };
   },
   created: function() {
-    axios.get(`/api/users/${this.$parent.getUserId()}`).then((response) => {
-      this.user = response.data;
-    });
+    // axios.get(`/api/users/${this.$parent.getUserId()}`).then((response) => {
+    //   this.user = response.data;
+    // });
     axios.get(`/api/matches`).then((response) => {
+      console.log(response.data);
       this.receivedMatches = response.data.received_matches;
-    });
-    axios.get(`/api/matches`).then((response) => {
       this.mutualMatches = response.data.mutual_matches;
     });
   },
   methods: {
-    unmatch: function(matches, match) {
+    unmatch: function(match) {
       var params = {
         mutual: -1,
       };
-      axios.patch(`/api/matches/${match.id}`, params).then((response) => {
-        console.log("Unmatched", response.data);
-        var index = matches.indexOf(match);
-        matches.splice(index, 1);
-        // I want the match to poof away
-        // this.$router.push("/matches");
-      });
+      axios
+        .patch(`/api/matches/${match.id}`, params)
+        .then((response) => {
+          console.log("Unmatched", response.data);
+          var index = this.mutualMatches.indexOf(match);
+          this.mutualMatches.splice(index, 1);
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    },
+    acceptMatch: function(match) {
+      var params = {
+        mutual: 1,
+      };
+      axios
+        .patch(`/api/matches/${match.id}`, params)
+        .then((response) => {
+          console.log("Match Accepted", response.data);
+          var index = this.receivedMatches.indexOf(match);
+          this.receivedMatches.splice(index, 1);
+          this.mutualMatches.push(response.data);
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
     },
   },
 };

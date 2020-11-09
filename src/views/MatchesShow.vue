@@ -1,8 +1,6 @@
 <template>
   <div class="matches-show">
-    {{ mutualMatch }}
     <h1>Match</h1>
-
     <!-- Match info section -->
     <div>
       <img :src="`${mutualMatch.recipient.image_url}`" alt="" />

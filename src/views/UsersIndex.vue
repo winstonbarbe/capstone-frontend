@@ -69,6 +69,7 @@ export default {
     match: function(recipient) {
       var params = {
         recipient_id: recipient.id,
+        mutual: 0,
       };
       axios.post(`/api/matches`, params).then((response) => {
         console.log("Match Created", response.data);
