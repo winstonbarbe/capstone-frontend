@@ -18,12 +18,6 @@
           (<i>{{ mutualMatch.sender.pronouns }}</i
           >) <i>{{ $parent.age(mutualMatch.sender.birth_date) }}</i>
         </p>
-        <!-- Last Message -->
-        <p>
-          <strong><u>Last Message</u></strong
-          >:
-        </p>
-
         <!-- <p>
             <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
             {{ mutualMatch.last_message.body }}
