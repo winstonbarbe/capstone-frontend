@@ -40,7 +40,18 @@
           {{ mutualMatch.sender.bio }}
         </p>
       </div>
-      <button v-on:click="unmatch(mutualMatch)">Unmatch</button>
+      <button v-if="mutualMatch.mutual == 1" v-on:click="unmatch(mutualMatch)">
+        Unmatch
+      </button>
+      <button v-if="mutualMatch.mutual == 0" v-on:click="unmatch(mutualMatch)">
+        Deny
+      </button>
+      <button
+        v-if="mutualMatch.mutual == 0"
+        v-on:click="acceptMatch(mutualMatch)"
+      >
+        Accept
+      </button>
     </div>
     <div v-else>
       <div>
@@ -79,24 +90,35 @@
           {{ mutualMatch.recipient.bio }}
         </p>
       </div>
-      <button v-on:click="unmatch(mutualMatch)">Unmatch</button>
+      <button v-if="mutualMatch.mutual == 1" v-on:click="unmatch(mutualMatch)">
+        Unmatch
+      </button>
+      <button v-if="mutualMatch.mutual == 0" v-on:click="unmatch(mutualMatch)">
+        Deny
+      </button>
+      <button
+        v-if="mutualMatch.mutual == 0"
+        v-on:click="acceptMatch(mutualMatch)"
+      >
+        Accept
+      </button>
     </div>
 
-    <!-- Message section -->
-    <h2>Messages</h2>
-    <div v-for="message in mutualMatch.messages">
-      <p>
-        <strong>{{ message.sender.first_name }}</strong
-        >:
-        {{ message.body }}
-        <i>{{ sent(message.sent) }}</i>
-      </p>
+    <div v-if="mutualMatch.mutual == 1">
+      <h2>Messages</h2>
+      <div v-for="message in mutualMatch.messages">
+        <p>
+          <strong>{{ message.sender.first_name }}</strong
+          >:
+          {{ message.body }}
+          <i>{{ sent(message.sent) }}</i>
+        </p>
+      </div>
+      <!-- Message Create -->
+      <textarea v-model="newMessage" placeholder="new message..."></textarea>
+      <br />
+      <button v-on:click="sendMessage()">Send</button>
     </div>
-    <!-- Message Create -->
-
-    <textarea v-model="newMessage" placeholder="new message..."></textarea>
-    <br />
-    <button v-on:click="sendMessage()">Send</button>
   </div>
 </template>
 
@@ -143,6 +165,19 @@ export default {
         .then((response) => {
           console.log("Unmatched", response.data);
           this.$router.push("/matches");
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    },
+    acceptMatch: function(match) {
+      var params = {
+        mutual: 1,
+      };
+      axios
+        .patch(`/api/matches/${match.id}`, params)
+        .then((response) => {
+          console.log("Match Accepted", response.data);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

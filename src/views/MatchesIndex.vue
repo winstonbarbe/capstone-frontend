@@ -121,7 +121,7 @@
     <div v-for="receivedMatch in receivedMatches">
       <!-- Received only get send if you are the recipient -->
       <!-- Router Link redirects to match show -->
-      <router-link :to="`/users/${receivedMatch.sender.id}`"
+      <router-link :to="`/matches/${receivedMatch.id}`"
         ><img :src="`${receivedMatch.sender.image_url}`" alt=""
       /></router-link>
       <p>

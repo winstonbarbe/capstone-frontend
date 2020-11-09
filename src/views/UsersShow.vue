@@ -45,6 +45,15 @@
     <router-link v-if="$parent.currentUser(user)" :to="`/users/${user.id}/edit`"
       >Edit</router-link
     >
+    <button v-if="!$parent.currentUser(user)" v-on:click="match(user)">
+      Match
+    </button>
+    <button
+      v-if="!$parent.currentUser(user)"
+      v-on:click="$router.push(`/users`)"
+    >
+      Back
+    </button>
     <!-- A button to come to later to create a back. -->
     <!-- <button @click="$router.push(``)">Click to Navigate</button> -->
   </div>
@@ -65,6 +74,17 @@ export default {
       this.user = response.data;
     });
   },
-  methods: {},
+  methods: {
+    match: function(recipient) {
+      var params = {
+        recipient_id: recipient.id,
+        mutual: 0,
+      };
+      axios.post(`/api/matches`, params).then((response) => {
+        console.log("Match Created", response.data);
+        this.$router.push("/users");
+      });
+    },
+  },
 };
 </script>
