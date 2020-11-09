@@ -166,7 +166,6 @@
       </div>
 
       <!-- Buttons -->
-      <!-- Currently there seems to be a error occuring because I think  it trie to update when I hit the delete button. Not breaking anything -->
       <span>
         <!-- Update Button -->
         <input type="submit" class="btn btn-warning" value="Update" />
@@ -176,6 +175,10 @@
         <button v-on:click="destroyUser()">
           Delete Account
         </button>
+        |
+
+        <!-- Back Button -->
+        <button v-on:click="$router.push(`/users/${user.id}`)">Back</button>
       </span>
     </form>
   </div>
