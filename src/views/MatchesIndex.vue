@@ -157,9 +157,9 @@
         <strong>About:</strong><br />
         {{ receivedMatch.sender.bio }}
       </p>
-      <!-- <button v-on:click="unmatch(receivedMatch)">
+      <button v-on:click="rejectMatch(receivedMatch)">
         Reject
-      </button> -->
+      </button>
       <button v-on:click="acceptMatch(receivedMatch)">
         Accept
       </button>
@@ -175,13 +175,9 @@ export default {
       errors: [],
       mutualMatches: [],
       receivedMatches: [],
-      // user: [],
     };
   },
   created: function() {
-    // axios.get(`/api/users/${this.$parent.getUserId()}`).then((response) => {
-    //   this.user = response.data;
-    // });
     axios.get(`/api/matches`).then((response) => {
       console.log(response.data);
       this.receivedMatches = response.data.received_matches;
@@ -215,6 +211,21 @@ export default {
           var index = this.receivedMatches.indexOf(match);
           this.receivedMatches.splice(index, 1);
           this.mutualMatches.push(response.data);
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    },
+    rejectMatch: function(match) {
+      var params = {
+        mutual: -1,
+      };
+      axios
+        .patch(`/api/matches/${match.id}`, params)
+        .then((response) => {
+          console.log("Match Rejected", response.data);
+          var index = this.receivedMatches.indexOf(match);
+          this.receivedMatches.splice(index, 1);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

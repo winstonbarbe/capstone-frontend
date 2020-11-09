@@ -2,43 +2,85 @@
   <div class="matches-show">
     <h1>Match</h1>
     <!-- Match info section -->
-    <div>
-      <img :src="`${mutualMatch.recipient.image_url}`" alt="" />
-      <p>
-        <strong>{{ mutualMatch.recipient.first_name }}</strong
-        ><br />(<i>{{ mutualMatch.recipient.pronouns }}</i
-        >) <i>{{ $parent.age(mutualMatch.recipient.birth_date) }}</i>
-      </p>
-      <p>
-        <strong><u>Signs</u></strong
-        >:
-      </p>
-      <ul>
-        <li>
-          Sun: <strong>{{ mutualMatch.recipient.sun_sign }}</strong>
-        </li>
-        <li>
-          Moon: <strong>{{ mutualMatch.recipient.moon_sign }}</strong>
-        </li>
-        <li>
-          Ascendent:
-          <strong>{{ mutualMatch.recipient.ascending_sign }}</strong>
-        </li>
-      </ul>
-      <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-      <p v-if="mutualMatch.recipient.ranking > 0">
-        Compatibility: <strong>Super</strong>
-      </p>
-      <p>
-        Location:
-        <strong>{{ mutualMatch.recipient.current_location }}</strong>
-      </p>
-      <p>
-        <strong>About:</strong><br />
-        {{ mutualMatch.recipient.bio }}
-      </p>
+    <!-- -->
+    <div v-if="mutualMatch.sender.id !== $parent.getUserId()">
+      <div>
+        <img :src="`${mutualMatch.sender.image_url}`" alt="" />
+        <p>
+          <strong>{{ mutualMatch.sender.first_name }}</strong
+          ><br />(<i>{{ mutualMatch.sender.pronouns }}</i
+          >) <i>{{ $parent.age(mutualMatch.sender.birth_date) }}</i>
+        </p>
+        <p>
+          <strong><u>Signs</u></strong
+          >:
+        </p>
+        <ul>
+          <li>
+            Sun: <strong>{{ mutualMatch.sender.sun_sign }}</strong>
+          </li>
+          <li>
+            Moon: <strong>{{ mutualMatch.sender.moon_sign }}</strong>
+          </li>
+          <li>
+            Ascendent:
+            <strong>{{ mutualMatch.sender.ascending_sign }}</strong>
+          </li>
+        </ul>
+        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
+        <p v-if="mutualMatch.sender.ranking > 0">
+          Compatibility: <strong>Super</strong>
+        </p>
+        <p>
+          Location:
+          <strong>{{ mutualMatch.sender.current_location }}</strong>
+        </p>
+        <p>
+          <strong>About:</strong><br />
+          {{ mutualMatch.sender.bio }}
+        </p>
+      </div>
+      <button v-on:click="unmatch(mutualMatch)">Unmatch</button>
     </div>
-    <!-- <button v-on:click="unmatch(mutualMatches, mutualMatch)">Unmatch</button> -->
+    <div v-else>
+      <div>
+        <img :src="`${mutualMatch.recipient.image_url}`" alt="" />
+        <p>
+          <strong>{{ mutualMatch.recipient.first_name }}</strong
+          ><br />(<i>{{ mutualMatch.recipient.pronouns }}</i
+          >) <i>{{ $parent.age(mutualMatch.recipient.birth_date) }}</i>
+        </p>
+        <p>
+          <strong><u>Signs</u></strong
+          >:
+        </p>
+        <ul>
+          <li>
+            Sun: <strong>{{ mutualMatch.recipient.sun_sign }}</strong>
+          </li>
+          <li>
+            Moon: <strong>{{ mutualMatch.recipient.moon_sign }}</strong>
+          </li>
+          <li>
+            Ascendent:
+            <strong>{{ mutualMatch.recipient.ascending_sign }}</strong>
+          </li>
+        </ul>
+        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
+        <p v-if="mutualMatch.recipient.ranking > 0">
+          Compatibility: <strong>Super</strong>
+        </p>
+        <p>
+          Location:
+          <strong>{{ mutualMatch.recipient.current_location }}</strong>
+        </p>
+        <p>
+          <strong>About:</strong><br />
+          {{ mutualMatch.recipient.bio }}
+        </p>
+      </div>
+      <button v-on:click="unmatch(mutualMatch)">Unmatch</button>
+    </div>
 
     <!-- Message section -->
     <h2>Messages</h2>
@@ -72,10 +114,6 @@ export default {
     };
   },
   created: function() {
-    // axios.get(`/api/users/${this.$parent.getUserId()}`).then((response) => {
-    //   console.log("User Info", response.data);
-    //   this.user = response.data;
-    // });
     axios.get(`/api/matches/${this.$route.params.id}`).then((response) => {
       console.log("Match Data", response.data);
       this.mutualMatch = response.data;
@@ -95,6 +133,20 @@ export default {
         this.mutualMatch.messages.push(response.data);
         this.newMessage = "";
       });
+    },
+    unmatch: function(match) {
+      var params = {
+        mutual: -1,
+      };
+      axios
+        .patch(`/api/matches/${match.id}`, params)
+        .then((response) => {
+          console.log("Unmatched", response.data);
+          this.$router.push("/matches");
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
     },
   },
 };
