@@ -1,6 +1,7 @@
 <template>
   <div class="matches-show">
     <h1>Match</h1>
+
     <!-- Match info section -->
     <!-- -->
     <div v-if="mutualMatch.sender.id !== $parent.getUserId()">
@@ -103,7 +104,7 @@
         Accept
       </button>
     </div>
-
+    <button v-on:click="$router.push('/matches')">Back</button>
     <div v-if="mutualMatch.mutual == 1">
       <h2>Messages</h2>
       <div v-for="message in mutualMatch.messages">
