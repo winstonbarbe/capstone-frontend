@@ -76,9 +76,14 @@ export default {
   },
   methods: {
     match: function(recipient) {
+      var superMatch = false;
+      if (recipient.ranking > 7) {
+        superMatch = true;
+      }
       var params = {
         recipient_id: recipient.id,
         mutual: 0,
+        super: superMatch,
       };
       axios.post(`/api/matches`, params).then((response) => {
         console.log("Match Created", response.data);

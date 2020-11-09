@@ -44,10 +44,7 @@
             <strong>{{ mutualMatch.sender.ascending_sign }}</strong>
           </li>
         </ul>
-        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <!-- <p v-if="mutualMatch.sender.ranking > 0">
-        Compatibility: <strong>Super</strong>
-      </p> -->
+        <p v-if="mutualMatch.super">Compatibility: <strong>Super</strong></p>
         <p>
           Location: <strong>{{ mutualMatch.sender.current_location }}</strong>
         </p>
@@ -88,10 +85,14 @@
             <strong>{{ mutualMatch.recipient.ascending_sign }}</strong>
           </li>
         </ul>
-        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <!-- <p v-if="mutualMatch.recipient.ranking > 0">
+        <p v-if="mutualMatch.super">Compatibility: <strong>Super</strong></p>
+        <p>
+          <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
+          <!-- <p v-if="mutualMatch.recipient.ranking > 0">
         Compatibility: <strong>Super</strong>
       </p> -->
+        </p>
+
         <p>
           Location:
           <strong>{{ mutualMatch.recipient.current_location }}</strong>
@@ -140,10 +141,14 @@
           <strong>{{ receivedMatch.sender.ascending_sign }}</strong>
         </li>
       </ul>
-      <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-      <!-- <p v-if="receivedMatch.sender.ranking > 0">
+      <p v-if="receivedMatch.super">Compatibility: <strong>Super</strong></p>
+      <p>
+        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
+        <!-- <p v-if="receivedMatch.sender.ranking > 0">
         Compatibility: <strong>Super</strong>
       </p> -->
+      </p>
+
       <p>
         Location: <strong>{{ receivedMatch.sender.current_location }}</strong>
       </p>

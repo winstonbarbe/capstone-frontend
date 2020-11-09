@@ -29,9 +29,7 @@
           </li>
         </ul>
         <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <p v-if="mutualMatch.sender.ranking > 0">
-          Compatibility: <strong>Super</strong>
-        </p>
+        <p v-if="mutualMatch.super">Compatibility: <strong>Super</strong></p>
         <p>
           Location:
           <strong>{{ mutualMatch.sender.current_location }}</strong>
@@ -79,9 +77,7 @@
           </li>
         </ul>
         <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <p v-if="mutualMatch.recipient.ranking > 0">
-          Compatibility: <strong>Super</strong>
-        </p>
+        <p v-if="mutualMatch.super">Compatibility: <strong>Super</strong></p>
         <p>
           Location:
           <strong>{{ mutualMatch.recipient.current_location }}</strong>
