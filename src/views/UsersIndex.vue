@@ -34,6 +34,9 @@
         Location: <strong>{{ user.current_location }}</strong>
       </p>
       <p>
+        Distance: <strong>{{ user.distance }}</strong>
+      </p>
+      <p>
         <strong>About:</strong><br />
         {{ user.bio }}
       </p>
@@ -53,7 +56,10 @@ ul {
 <script>
 import axios from "axios";
 import moment from "moment";
+import Vue2Filters from "vue2-filters";
+
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
       users: [],
