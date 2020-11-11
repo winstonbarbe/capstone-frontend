@@ -18,6 +18,10 @@
         >) <i>{{ $parent.age(mutualMatch.matcher.birth_date) }}</i>
       </p>
       <p>
+        <strong><u>Last Message</u></strong
+        >:
+      </p>
+      <p>
         <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
         {{ mutualMatch.last_message.body }}
         <i
@@ -55,13 +59,12 @@
     </div>
 
     <!-- Received Matches Data -->
-    <!-- Received Matches Should be sort with most recent first -->
+    <!-- Received Matches Should be sort with most recent first-->
     <h1>Received Matches</h1>
 
     <p v-if="receivedMatches.length === 0">No matches yet</p>
 
     <div v-for="receivedMatch in receivedMatches">
-      <!-- Received only get send if you are the recipient -->
       <!-- Router Link redirects to match show -->
       <router-link :to="`/matches/${receivedMatch.id}`"
         ><img :src="`${receivedMatch.matcher.image_url}`" alt=""
