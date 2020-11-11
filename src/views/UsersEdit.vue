@@ -112,7 +112,7 @@
       <!-- Current Location should be able to get actual Location -->
       <!-- At least by searchable thru dropdown and stuff like that -->
       <div class="form-group">
-        <label>Current Location:</label>
+        <label>Address or Zip Code:</label>
         <input
           type="text"
           class="form-control"

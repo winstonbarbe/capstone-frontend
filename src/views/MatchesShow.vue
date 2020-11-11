@@ -4,102 +4,52 @@
 
     <!-- Match info section -->
     <!-- -->
-    <div v-if="mutualMatch.sender.id !== $parent.getUserId()">
-      <div>
-        <img :src="`${mutualMatch.sender.image_url}`" alt="" />
-        <p>
-          <strong>{{ mutualMatch.sender.first_name }}</strong
-          ><br />(<i>{{ mutualMatch.sender.pronouns }}</i
-          >) <i>{{ $parent.age(mutualMatch.sender.birth_date) }}</i>
-        </p>
-        <p>
-          <strong><u>Signs</u></strong
-          >:
-        </p>
-        <ul>
-          <li>
-            Sun: <strong>{{ mutualMatch.sender.sun_sign }}</strong>
-          </li>
-          <li>
-            Moon: <strong>{{ mutualMatch.sender.moon_sign }}</strong>
-          </li>
-          <li>
-            Ascendent:
-            <strong>{{ mutualMatch.sender.ascending_sign }}</strong>
-          </li>
-        </ul>
-        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <p v-if="mutualMatch.super">Compatibility: <strong>Super</strong></p>
-        <p>
-          Location:
-          <strong>{{ mutualMatch.sender.current_location }}</strong>
-        </p>
-        <p>
-          <strong>About:</strong><br />
-          {{ mutualMatch.sender.bio }}
-        </p>
-      </div>
-      <button v-if="mutualMatch.mutual == 1" v-on:click="unmatch(mutualMatch)">
-        Unmatch
-      </button>
-      <button v-if="mutualMatch.mutual == 0" v-on:click="unmatch(mutualMatch)">
-        Deny
-      </button>
-      <button
-        v-if="mutualMatch.mutual == 0"
-        v-on:click="acceptMatch(mutualMatch)"
-      >
-        Accept
-      </button>
+    <div>
+      <img :src="`${mutualMatch.matcher.image_url}`" alt="" />
+      <p>
+        <strong>{{ mutualMatch.matcher.first_name }}</strong
+        ><br />(<i>{{ mutualMatch.matcher.pronouns }}</i
+        >) <i>{{ $parent.age(mutualMatch.matcher.birth_date) }}</i>
+      </p>
+      <p>
+        <strong><u>Signs</u></strong
+        >:
+      </p>
+      <ul>
+        <li>
+          Sun: <strong>{{ mutualMatch.matcher.sun_sign }}</strong>
+        </li>
+        <li>
+          Moon: <strong>{{ mutualMatch.matcher.moon_sign }}</strong>
+        </li>
+        <li>
+          Ascendent:
+          <strong>{{ mutualMatch.matcher.ascending_sign }}</strong>
+        </li>
+      </ul>
+      <p v-if="mutualMatch.super">Compatibility: <strong>Super</strong></p>
+      <p>
+        Distance:
+        <strong>{{ mutualMatch.matcher.distance }}</strong>
+      </p>
+      <p>
+        <strong>About:</strong><br />
+        {{ mutualMatch.matcher.bio }}
+      </p>
     </div>
-    <div v-else>
-      <div>
-        <img :src="`${mutualMatch.recipient.image_url}`" alt="" />
-        <p>
-          <strong>{{ mutualMatch.recipient.first_name }}</strong
-          ><br />(<i>{{ mutualMatch.recipient.pronouns }}</i
-          >) <i>{{ $parent.age(mutualMatch.recipient.birth_date) }}</i>
-        </p>
-        <p>
-          <strong><u>Signs</u></strong
-          >:
-        </p>
-        <ul>
-          <li>
-            Sun: <strong>{{ mutualMatch.recipient.sun_sign }}</strong>
-          </li>
-          <li>
-            Moon: <strong>{{ mutualMatch.recipient.moon_sign }}</strong>
-          </li>
-          <li>
-            Ascendent:
-            <strong>{{ mutualMatch.recipient.ascending_sign }}</strong>
-          </li>
-        </ul>
-        <!-- Compatibility/Ranking is not being passed for Matches in the backend -->
-        <p v-if="mutualMatch.super">Compatibility: <strong>Super</strong></p>
-        <p>
-          Location:
-          <strong>{{ mutualMatch.recipient.current_location }}</strong>
-        </p>
-        <p>
-          <strong>About:</strong><br />
-          {{ mutualMatch.recipient.bio }}
-        </p>
-      </div>
-      <button v-if="mutualMatch.mutual == 1" v-on:click="unmatch(mutualMatch)">
-        Unmatch
-      </button>
-      <button v-if="mutualMatch.mutual == 0" v-on:click="unmatch(mutualMatch)">
-        Deny
-      </button>
-      <button
-        v-if="mutualMatch.mutual == 0"
-        v-on:click="acceptMatch(mutualMatch)"
-      >
-        Accept
-      </button>
-    </div>
+    <button v-if="mutualMatch.mutual == 1" v-on:click="unmatch(mutualMatch)">
+      Unmatch
+    </button>
+    <button v-if="mutualMatch.mutual == 0" v-on:click="unmatch(mutualMatch)">
+      Deny
+    </button>
+    <button
+      v-if="mutualMatch.mutual == 0"
+      v-on:click="acceptMatch(mutualMatch)"
+    >
+      Accept
+    </button>
+
     <button v-on:click="$router.push('/matches')">Back</button>
     <div v-if="mutualMatch.mutual == 1">
       <h2>Messages</h2>
@@ -127,8 +77,7 @@ export default {
     return {
       newMessage: "",
       mutualMatch: {
-        recipient: {},
-        sender: {},
+        matcher: {},
       },
     };
   },

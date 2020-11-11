@@ -29,7 +29,7 @@
     </ul>
     <p v-if="user.ranking > 7">Compatibility: <strong>Super</strong></p>
     <p>
-      Location: <strong>{{ user.current_location }}</strong>
+      Distance: <strong>{{ user.distance }}</strong>
     </p>
     <p>
       <strong>About:</strong><br />
