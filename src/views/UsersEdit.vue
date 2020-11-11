@@ -184,7 +184,7 @@
       <!-- Current Location should be able to get actual Location -->
       <!-- At least by searchable thru dropdown and stuff like that -->
       <div class="form-group">
-        <label>Address or Zip Code:</label>
+        <label>Address:</label>
         <input
           type="text"
           class="form-control"
@@ -238,8 +238,8 @@
       </div>
 
       <!-- Buttons -->
+      <!-- Should through an error if it's not complete -->
       <span>
-        <!-- Update Button -->
         <input type="submit" class="btn btn-warning" value="Update" />
         |
         <!-- Delete Button -->

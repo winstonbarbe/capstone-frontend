@@ -28,7 +28,7 @@
       </li>
     </ul>
     <p v-if="user.ranking > 7">Compatibility: <strong>Super</strong></p>
-    <p>
+    <p v-if="user.id != $parent.getUserId()">
       Distance: <strong>{{ user.distance }}</strong>
     </p>
     <p>
