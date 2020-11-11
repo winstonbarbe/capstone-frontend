@@ -70,7 +70,6 @@
       </div>
 
       <!-- Personal Prefence and info -->
-      <!-- Gender should be dropdown -->
       <div class="form-group">
         <label>Gender: </label>
         <select class="form-control" v-model="user.gender">
@@ -104,9 +103,82 @@
       </div>
 
       <!-- Birthday select should be refined -->
+
       <div class="form-group">
-        <label>Birth Date: </label>
-        <input type="text" class="form-control" v-model="user.birth_date" />
+        Birth Date:
+        <label>Year: </label>
+        <select class="form-control" v-model="year">
+          <option v-if="!years" disabled></option>
+          <option v-for="y in years">{{ y }}</option>
+        </select>
+        |
+        <label>Month: </label>
+        <select class="form-control" v-model="month">
+          <option v-if="!month" disabled></option>
+          <option value="01">Jan</option>
+          <option value="02">Feb</option>
+          <option value="03">Mar</option>
+          <option value="04">Apr</option>
+          <option value="05">May</option>
+          <option value="06">Jun</option>
+          <option value="07">Jul</option>
+          <option value="08">Aug</option>
+          <option value="09">Sep</option>
+          <option value="10">Oct</option>
+          <option value="11">Nov</option>
+          <option value="12">Dec</option>
+        </select>
+        |
+        <label>Day: </label>
+        <select class="form-control" v-model="day">
+          <option v-if="!day" disabled></option>
+          <option value="01">1</option>
+          <option value="02">2</option>
+          <option value="03">3</option>
+          <option value="04">4</option>
+          <option value="05">5</option>
+          <option value="06">6</option>
+          <option value="07">7</option>
+          <option value="08">8</option>
+          <option value="09">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option v-if="month != '02'" value="29">29</option>
+          <option v-else-if="year % 4 == 0" value="29">29</option>
+          <option v-if="month != '02'" value="30">30</option>
+          <option
+            v-if="
+              month == '01' ||
+                month == '03' ||
+                month == '05' ||
+                month == '07' ||
+                month == '08' ||
+                month == '10' ||
+                month == '12'
+            "
+            value="31"
+            >31</option
+          >
+        </select>
+
+        <!-- <input type="text" class="form-control" v-model="user.birth_date" /> -->
       </div>
 
       <!-- Current Location should be able to get actual Location -->
@@ -190,7 +262,11 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      sunSign: "",
+      years: [],
+      birthDate: "",
+      month: "",
+      day: "",
+      year: "",
       oldPassword: "",
       newPassword: "",
       newPasswordConfirmation: "",
@@ -202,8 +278,18 @@ export default {
     axios.get(`/api/users/${this.$route.params.id}`).then((response) => {
       console.log(response.data);
       this.user = response.data;
-      this.sunSign = this.user.sun_sign;
+      if (response.data.birth_date) {
+        this.birthDate = response.data.birth_date.split("-");
+        this.day = `${this.birthDate[2]}`;
+        this.month = `${this.birthDate[1]}`;
+        this.year = `${this.birthDate[0]}`;
+      }
     });
+    let i = 1900;
+    while (i <= 2020 - 18) {
+      this.years.push(`${i}`);
+      i++;
+    }
   },
   methods: {
     updateUser: function() {
@@ -221,7 +307,9 @@ export default {
         interested_in: this.user.interested_in,
         pronouns: this.user.pronouns,
         current_location: this.user.current_location,
-        birth_date: this.user.birth_date,
+        year: this.year,
+        month: this.month,
+        day: this.day,
         bio: this.user.bio,
         image_url: this.user.image_url,
       };
