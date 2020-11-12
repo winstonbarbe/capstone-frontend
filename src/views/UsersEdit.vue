@@ -107,13 +107,13 @@
       <div class="form-group">
         Birth Date:
         <label>Year: </label>
-        <select class="form-control" v-model="year">
+        <select required class="form-control" v-model="year">
           <option v-if="!years" disabled></option>
           <option v-for="y in years">{{ y }}</option>
         </select>
         |
         <label>Month: </label>
-        <select class="form-control" v-model="month">
+        <select required class="form-control" v-model="month">
           <option v-if="!month" disabled></option>
           <option value="01">Jan</option>
           <option value="02">Feb</option>
@@ -130,7 +130,7 @@
         </select>
         |
         <label>Day: </label>
-        <select class="form-control" v-model="day">
+        <select required class="form-control" v-model="day">
           <option v-if="!day" disabled></option>
           <option value="01">1</option>
           <option value="02">2</option>
@@ -184,8 +184,9 @@
       <!-- Current Location should be able to get actual Location -->
       <!-- At least by searchable thru dropdown and stuff like that -->
       <div class="form-group">
-        <label>Address:</label>
+        <label>Address or Zip code:</label>
         <input
+          required
           type="text"
           class="form-control"
           v-model="user.current_location"
@@ -266,7 +267,7 @@ export default {
       birthDate: "",
       month: "",
       day: "",
-      year: "",
+      year: "1995",
       oldPassword: "",
       newPassword: "",
       newPasswordConfirmation: "",
@@ -285,7 +286,7 @@ export default {
         this.year = `${this.birthDate[0]}`;
       }
     });
-    let i = 1900;
+    let i = 1920;
     while (i <= 2020 - 18) {
       this.years.push(`${i}`);
       i++;
@@ -307,12 +308,14 @@ export default {
         interested_in: this.user.interested_in,
         pronouns: this.user.pronouns,
         current_location: this.user.current_location,
-        year: this.year,
-        month: this.month,
-        day: this.day,
         bio: this.user.bio,
         image_url: this.user.image_url,
       };
+      if (this.day && this.year && this.month) {
+        params.year = this.year;
+        params.month = this.month;
+        params.day = this.day;
+      }
       axios
         .patch(`/api/users/${this.user.id}`, params)
         .then((response) => {
