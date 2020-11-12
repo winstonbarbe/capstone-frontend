@@ -124,6 +124,7 @@ export default {
         .patch(`/api/matches/${match.id}`, params)
         .then((response) => {
           console.log("Match Accepted", response.data);
+          this.mutualMatch.mutual = 1;
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

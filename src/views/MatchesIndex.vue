@@ -21,7 +21,7 @@
         <strong><u>Last Message</u></strong
         >:
       </p>
-      <p>
+      <p v-if="mutualMatch.last_message">
         <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
         {{ mutualMatch.last_message.body }}
         <i
