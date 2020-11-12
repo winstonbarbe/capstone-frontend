@@ -200,8 +200,13 @@
       </div>
       <!-- Add cloudinary -->
       <div class="form-group">
-        <label>Image URL:</label>
-        <input type="text" class="form-control" v-model="user.image_url" />
+        <label>Image:</label>
+        <input
+          type="file"
+          class="form-control"
+          v-on:change="setFile($event)"
+          ref="fileInput"
+        />
       </div>
 
       <!-- Account Information -->
@@ -268,6 +273,7 @@ export default {
       month: "",
       day: "",
       year: "1995",
+      image: "",
       oldPassword: "",
       newPassword: "",
       newPasswordConfirmation: "",
@@ -294,30 +300,35 @@ export default {
   },
   methods: {
     updateUser: function() {
-      var params = {
-        first_name: this.user.first_name,
-        last_name: this.user.last_name,
-        email: this.user.email,
-        old_password: this.oldPassword,
-        new_password: this.newPassword,
-        new_password_confirmation: this.newPasswordConfirmation,
-        sun_sign: this.user.sun_sign,
-        moon_sign: this.user.moon_sign,
-        ascending_sign: this.user.ascending_sign,
-        gender: this.user.gender,
-        interested_in: this.user.interested_in,
-        pronouns: this.user.pronouns,
-        current_location: this.user.current_location,
-        bio: this.user.bio,
-        image_url: this.user.image_url,
-      };
-      if (this.day && this.year && this.month) {
-        params.year = this.year;
-        params.month = this.month;
-        params.day = this.day;
+      var formData = new FormData();
+      if (this.image) {
+        formData.append("image", this.image);
       }
+      if (this.day && this.year && this.month) {
+        formData.append("year", this.year);
+        formData.append("month", this.month);
+        formData.append("day", this.day);
+      }
+      formData.append("first_name", this.user.first_name);
+      formData.append("last_name", this.user.last_name);
+      formData.append("email", this.user.email);
+      formData.append("old_password", this.oldPassword);
+      formData.append("new_password", this.newPassword);
+      formData.append(
+        "new_password_confirmation",
+        this.newPasswordConfirmation
+      );
+      formData.append("sun_sign", this.user.sun_sign);
+      formData.append("moon_sign", this.user.moon_sign);
+      formData.append("ascending_sign", this.user.ascending_sign);
+      formData.append("gender", this.user.gender);
+      formData.append("interested_in", this.user.interested_in);
+      formData.append("pronouns", this.user.pronouns);
+      formData.append("current_location", this.user.current_location);
+      formData.append("bio", this.user.bio);
+
       axios
-        .patch(`/api/users/${this.user.id}`, params)
+        .patch(`/api/users/${this.user.id}`, formData)
         .then((response) => {
           this.$router.push(`/users/${this.user.id}`);
         })
@@ -332,6 +343,11 @@ export default {
         localStorage.removeItem("user_id");
         this.$router.push("/");
       });
+    },
+    setFile: function(event) {
+      if (event.target.files.length > 0) {
+        this.image = event.target.files[0];
+      }
     },
   },
 };
