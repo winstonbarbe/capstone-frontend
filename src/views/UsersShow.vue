@@ -1,10 +1,9 @@
 <template>
   <div class="users-show">
-    <img :src="user.image_url" :alt="user.first_name" />
+    <img :src="user.image_url" :alt="user.name" />
 
     <h1>
-      {{ user.first_name }}
-      <span v-if="$parent.currentUser(user)">{{ user.last_name }}</span>
+      {{ user.name }}
     </h1>
     <!-- For age add moment js -->
     <p>

@@ -6,6 +6,14 @@
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
 
+      <!-- <place-autocomplete-field
+        v-model="address"
+        placeholder="Enter an an address, zipcode, or location"
+        label="Address"
+        name="address"
+        api-key="AIzaSyA9I1hlWhICc16q-LasjCq0kPx-ok762s0"
+      ></place-autocomplete-field> -->
+
       <!-- Astrological Info -->
       <!-- Sun Sign -->
       <div class="form-group">
@@ -211,12 +219,8 @@
       <!-- Account Information -->
       <!-- Maybe have a button for updating Names -->
       <div class="form-group">
-        <label>First Name:</label>
-        <input type="text" class="form-control" v-model="user.first_name" />
-      </div>
-      <div class="form-group">
-        <label>Last Name:</label>
-        <input type="text" class="form-control" v-model="user.last_name" />
+        <label>Name:</label>
+        <input type="text" class="form-control" v-model="user.name" />
       </div>
       <div class="form-group">
         <label>Email:</label>
@@ -261,12 +265,17 @@
   </div>
 </template>
 
+<style lang="scss" scoped></style>
+
 <script>
 import axios from "axios";
+// import VuePlaceAutocomplete from "vue-place-autocomplete";
+// Vue.use(VuePlaceAutocomplete);
 
 export default {
   data: function() {
     return {
+      address: "",
       minAge: "",
       maxAge: "",
       minDistance: "",
@@ -312,8 +321,8 @@ export default {
         formData.append("month", this.month);
         formData.append("day", this.day);
       }
-      formData.append("first_name", this.user.first_name);
-      formData.append("last_name", this.user.last_name);
+      
+      formData.append("name", this.user.name);
       formData.append("email", this.user.email);
       formData.append("old_password", this.oldPassword);
       formData.append("new_password", this.newPassword);
@@ -341,7 +350,7 @@ export default {
     },
     destroyUser: function() {
       axios.delete(`/api/users/${this.user.id}`).then((response) => {
-        console.log("Account Destroyed", response.data);
+        console.log("Account Destroyed");
         localStorage.removeItem("jwt");
         localStorage.removeItem("user_id");
         localStorage.removeItem("user_age");

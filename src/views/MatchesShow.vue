@@ -7,7 +7,7 @@
     <div>
       <img :src="`${mutualMatch.matcher.image_url}`" alt="" />
       <p>
-        <strong>{{ mutualMatch.matcher.first_name }}</strong
+        <strong>{{ mutualMatch.matcher.name }}</strong
         ><br />(<i>{{ mutualMatch.matcher.pronouns }}</i
         >) <i>{{ $parent.age(mutualMatch.matcher.birth_date) }}</i>
       </p>
@@ -49,8 +49,8 @@
     >
       Accept
     </button>
-
     <button v-on:click="$router.push('/matches')">Back</button>
+
     <div v-if="mutualMatch.mutual == 1">
       <h2>Messages</h2>
       <!-- Message Create -->
@@ -63,7 +63,7 @@
       >
         <div v-for="message in mutualMatch.messages">
           <p>
-            <strong>{{ message.first_name }}</strong
+            <strong>{{ message.name }}</strong
             >:
             {{ message.body }}
             <i>{{ sent(message.created_at) }}</i>

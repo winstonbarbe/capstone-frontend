@@ -35,12 +35,12 @@
         "
       >
         <router-link :to="`/users/${user.id}`"
-          ><img :src="user.image_url" :alt="user.first_name"
+          ><img :src="user.image_url" :alt="user.name"
         /></router-link>
 
         <!-- For age add moment js -->
         <p>
-          <strong>{{ user.first_name }}</strong
+          <strong>{{ user.name }}</strong
           ><br />
           (<i>{{ user.pronouns }}</i
           >) <i>{{ $parent.age(user.birth_date) }}</i>

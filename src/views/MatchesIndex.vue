@@ -11,7 +11,7 @@
         ><img :src="`${mutualMatch.matcher.image_url}`" alt=""
       /></router-link>
       <p>
-        <strong>{{ mutualMatch.matcher.first_name }}</strong
+        <strong>{{ mutualMatch.matcher.name }}</strong
         ><br />
 
         (<i>{{ mutualMatch.matcher.pronouns }}</i
@@ -22,7 +22,7 @@
         >:
       </p>
       <p v-if="mutualMatch.last_message">
-        <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
+        <strong>{{ mutualMatch.last_message.name }}:</strong>
         {{ mutualMatch.last_message.body }}
         <i
           >{{
@@ -72,7 +72,7 @@
         ><img :src="`${receivedMatch.matcher.image_url}`" alt=""
       /></router-link>
       <p>
-        <strong>{{ receivedMatch.matcher.first_name }}</strong
+        <strong>{{ receivedMatch.matcher.name }}</strong
         ><br />
         (<i>{{ receivedMatch.matcher.pronouns }}</i
         >) <i>{{ $parent.age(receivedMatch.matcher.birth_date) }}</i>

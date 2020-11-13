@@ -2,6 +2,11 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
+// import VueGeolocation from "vue-browser-geolocation";
+// import VuePlaceAutocomplete from "vue-place-autocomplete";
+
+// Vue.use(VuePlaceAutocomplete);
+// Vue.use(VueGeolocation);
 
 axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/";
 

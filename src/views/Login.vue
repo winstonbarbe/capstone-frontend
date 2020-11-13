@@ -46,7 +46,7 @@ export default {
             "user_age",
             this.$parent.age(response.data.user_age)
           );
-          this.$router.push("/");
+          this.$router.push("/users");
           console.log(response.data);
         })
         .catch((error) => {
