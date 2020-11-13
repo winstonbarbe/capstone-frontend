@@ -69,7 +69,6 @@
           {{ user.bio }}
         </p>
         <button v-on:click="match(user)">Match</button>
-
         <p>------------------------------------------------</p>
       </div>
     </div>
@@ -85,10 +84,8 @@ ul {
 <script>
 import axios from "axios";
 import moment from "moment";
-import Vue2Filters from "vue2-filters";
 
 export default {
-  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
       minAge: "",

@@ -25,8 +25,10 @@
         <strong>{{ mutualMatch.last_message.sender.first_name }}:</strong>
         {{ mutualMatch.last_message.body }}
         <i
-          >{{ $parent.lastMessageSent(mutualMatch.last_message.sent) }} hours
-          ago</i
+          >{{
+            $parent.lastMessageSent(mutualMatch.last_message.created_at)
+          }}
+          hours ago</i
         >
       </p>
       <p>

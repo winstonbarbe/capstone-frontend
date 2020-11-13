@@ -53,18 +53,23 @@
     <button v-on:click="$router.push('/matches')">Back</button>
     <div v-if="mutualMatch.mutual == 1">
       <h2>Messages</h2>
-      <div v-for="message in mutualMatch.messages">
-        <p>
-          <strong>{{ message.sender.first_name }}</strong
-          >:
-          {{ message.body }}
-          <i>{{ sent(message.sent) }}</i>
-        </p>
-      </div>
       <!-- Message Create -->
       <textarea v-model="newMessage" placeholder="new message..."></textarea>
       <br />
       <button v-on:click="sendMessage()">Send</button>
+
+      <div
+        style="margin:auto;border:3px black;border-style:dotted none;width:400px;height:300px;line-height:2em;overflow:scroll;"
+      >
+        <div v-for="message in mutualMatch.messages">
+          <p>
+            <strong>{{ message.first_name }}</strong
+            >:
+            {{ message.body }}
+            <i>{{ sent(message.created_at) }}</i>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -72,6 +77,8 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import ActionCable from "actioncable";
+
 export default {
   data: function() {
     return {
@@ -79,12 +86,29 @@ export default {
       mutualMatch: {
         matcher: {},
       },
+      messages: [],
     };
   },
   created: function() {
     axios.get(`/api/matches/${this.$route.params.id}`).then((response) => {
       console.log("Match Data", response.data);
       this.mutualMatch = response.data;
+      this.mutualMatch.messages = this.mutualMatch.messages.reverse();
+    });
+    var cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+    cable.subscriptions.create("MessagesChannel", {
+      connected: () => {
+        // Called when the subscription is ready for use on the server
+        console.log("Connected to MessagesChannel");
+      },
+      disconnected: () => {
+        // Called when the subscription has been terminated by the server
+      },
+      received: (data) => {
+        // Called when there's incoming data on the websocket for this channel
+        console.log("Data from MessagesChannel:", data);
+        this.mutualMatch.messages.unshift(data); // update the messages in real time
+      },
     });
   },
   methods: {
@@ -98,7 +122,7 @@ export default {
       };
       axios.post("api/messages", params).then((response) => {
         console.log(response.data);
-        this.mutualMatch.messages.push(response.data);
+        // this.mutualMatch.messages.push(response.data);
         this.newMessage = "";
       });
     },
