@@ -51,6 +51,9 @@ export default {
     getUserId: function() {
       return parseInt(localStorage.getItem("user_id"));
     },
+    getUserAge: function() {
+      return parseInt(localStorage.getItem("user_age"));
+    },
     currentUser: function(user) {
       if (user.id === this.getUserId()) {
         return true;

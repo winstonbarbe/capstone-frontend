@@ -42,6 +42,10 @@ export default {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("user_id", response.data.user_id);
+          localStorage.setItem(
+            "user_age",
+            this.$parent.age(response.data.user_age)
+          );
           this.$router.push("/");
           console.log(response.data);
         })

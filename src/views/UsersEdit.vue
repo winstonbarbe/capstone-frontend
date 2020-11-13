@@ -1,13 +1,12 @@
 <template>
   <div class="users-edit">
     <form v-on:submit.prevent="updateUser()">
-      <h1>Edit Recipe</h1>
+      <h1>Edit User</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
 
       <!-- Astrological Info -->
-
       <!-- Sun Sign -->
       <div class="form-group">
         {{ user.sun_sign }}
@@ -268,6 +267,10 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      minAge: "",
+      maxAge: "",
+      minDistance: "",
+      maxDistance: "",
       years: [],
       birthDate: "",
       month: "",
@@ -341,7 +344,8 @@ export default {
         console.log("Account Destroyed", response.data);
         localStorage.removeItem("jwt");
         localStorage.removeItem("user_id");
-        this.$router.push("/");
+        localStorage.removeItem("user_age");
+        this.$router.push("/login");
       });
     },
     setFile: function(event) {
