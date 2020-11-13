@@ -15,9 +15,10 @@
       ></place-autocomplete-field> -->
 
       <!-- Astrological Info -->
+
+      <h2>Astrological</h2>
       <!-- Sun Sign -->
       <div class="form-group">
-        {{ user.sun_sign }}
         <label>Sun Sign: </label>
         <select class="form-control" v-model="user.sun_sign">
           <option v-if="!user.sun_sign" disabled></option>
@@ -77,6 +78,8 @@
       </div>
 
       <!-- Personal Prefence and info -->
+
+      <h2>Personal</h2>
       <div class="form-group">
         <label>Gender: </label>
         <select class="form-control" v-model="user.gender">
@@ -191,7 +194,7 @@
       <!-- Current Location should be able to get actual Location -->
       <!-- At least by searchable thru dropdown and stuff like that -->
       <div class="form-group">
-        <label>Address:</label>
+        <label>Address: </label>
         <input
           required
           type="text"
@@ -202,12 +205,12 @@
 
       <!-- Add warning message or info about bio length -->
       <div class="form-group">
-        <label>Bio:</label>
+        <label>Bio: </label>
         <input type="text" class="form-control" v-model="user.bio" />
       </div>
       <!-- Add cloudinary -->
       <div class="form-group">
-        <label>Image:</label>
+        <label>Image: </label>
         <input
           type="file"
           class="form-control"
@@ -216,36 +219,42 @@
         />
       </div>
 
-      <!-- Account Information -->
+      <h2>Account</h2>
       <!-- Maybe have a button for updating Names -->
       <div class="form-group">
-        <label>Name:</label>
+        <label>Name: </label>
         <input type="text" class="form-control" v-model="user.name" />
       </div>
       <div class="form-group">
-        <label>Email:</label>
+        <label>Email: </label>
         <input type="text" class="form-control" v-model="user.email" />
       </div>
 
       <!-- Password -->
       <!-- Show password only when attempting to change password and add warnings and stuff -->
-      <div class="form-group">
-        <label>Old Password:</label>
+
+      <h3>Password</h3>
+
+      <div v-if="changePassword" class="form-group">
+        <label>Old Password: </label>
         <input type="password" class="form-control" v-model="oldPassword" />
       </div>
-      <div class="form-group">
-        <label>New Password:</label>
+      <div v-if="changePassword" class="form-group">
+        <label>New Password: </label>
         <input type="password" class="form-control" v-model="newPassword" />
       </div>
-      <div class="form-group">
-        <label>New Password Confirmation:</label>
+      <div v-if="changePassword" class="form-group">
+        <label>New Password Confirmation: </label>
         <input
           type="password"
           class="form-control"
           v-model="newPasswordConfirmation"
         />
       </div>
-
+      <button v-if="!changePassword" v-on:click="updatePasswordOption()">
+        Change Password
+      </button>
+      <br />
       <!-- Buttons -->
       <!-- Should through an error if it's not complete -->
       <span>
@@ -275,6 +284,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      changePassword: false,
       address: "",
       minAge: "",
       maxAge: "",
@@ -321,7 +331,6 @@ export default {
         formData.append("month", this.month);
         formData.append("day", this.day);
       }
-      
       formData.append("name", this.user.name);
       formData.append("email", this.user.email);
       formData.append("old_password", this.oldPassword);
@@ -361,6 +370,9 @@ export default {
       if (event.target.files.length > 0) {
         this.image = event.target.files[0];
       }
+    },
+    updatePasswordOption: function() {
+      this.changePassword = !this.changePassword;
     },
   },
 };
