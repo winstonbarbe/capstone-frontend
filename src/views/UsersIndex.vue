@@ -69,6 +69,7 @@
           {{ user.bio }}
         </p>
         <button v-on:click="match(user)">Match</button>
+        <button v-on:click="dismissCompatible(user)">Dismiss</button>
         <p>------------------------------------------------</p>
       </div>
     </div>
@@ -135,6 +136,22 @@ export default {
       };
       axios.post(`/api/matches`, params).then((response) => {
         console.log("Match Created", response.data);
+        var index = this.users.indexOf(recipient);
+        this.users.splice(index, 1);
+      });
+    },
+    dismissCompatible: function(recipient) {
+      var superMatch = false;
+      if (recipient.ranking > 7) {
+        superMatch = true;
+      }
+      var params = {
+        recipient_id: recipient.id,
+        mutual: -1,
+        super: superMatch,
+      };
+      axios.post(`/api/matches`, params).then((response) => {
+        console.log("User Dismissed", response.data);
         var index = this.users.indexOf(recipient);
         this.users.splice(index, 1);
       });

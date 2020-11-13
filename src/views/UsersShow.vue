@@ -49,12 +49,16 @@
     </button>
     <button
       v-if="!$parent.currentUser(user)"
+      v-on:click="dismissCompatible(user)"
+    >
+      Dismiss
+    </button>
+    <button
+      v-if="!$parent.currentUser(user)"
       v-on:click="$router.push(`/users`)"
     >
       Back
     </button>
-    <!-- A button to come to later to create a back. -->
-    <!-- <button @click="$router.push(``)">Click to Navigate</button> -->
   </div>
 </template>
 
@@ -86,6 +90,21 @@ export default {
       };
       axios.post(`/api/matches`, params).then((response) => {
         console.log("Match Created", response.data);
+        this.$router.push("/users");
+      });
+    },
+    dismissCompatible: function(recipient) {
+      var superMatch = false;
+      if (recipient.ranking > 7) {
+        superMatch = true;
+      }
+      var params = {
+        recipient_id: recipient.id,
+        mutual: -1,
+        super: superMatch,
+      };
+      axios.post(`/api/matches`, params).then((response) => {
+        console.log("User Dismissed", response.data);
         this.$router.push("/users");
       });
     },
