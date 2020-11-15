@@ -5,17 +5,7 @@
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
-
-      <!-- <place-autocomplete-field
-        v-model="address"
-        placeholder="Enter an an address, zipcode, or location"
-        label="Address"
-        name="address"
-        api-key="AIzaSyA9I1hlWhICc16q-LasjCq0kPx-ok762s0"
-      ></place-autocomplete-field> -->
-
       <!-- Astrological Info -->
-
       <h2>Astrological</h2>
       <!-- Sun Sign -->
       <div class="form-group">
@@ -115,80 +105,13 @@
       <!-- Birthday select should be refined -->
 
       <div class="form-group">
-        Birth Date:
-        <label>Year: </label>
-        <select required class="form-control" v-model="year">
-          <option v-if="!years" disabled></option>
-          <option v-for="y in years">{{ y }}</option>
-        </select>
-        |
-        <label>Month: </label>
-        <select required class="form-control" v-model="month">
-          <option v-if="!month" disabled></option>
-          <option value="01">Jan</option>
-          <option value="02">Feb</option>
-          <option value="03">Mar</option>
-          <option value="04">Apr</option>
-          <option value="05">May</option>
-          <option value="06">Jun</option>
-          <option value="07">Jul</option>
-          <option value="08">Aug</option>
-          <option value="09">Sep</option>
-          <option value="10">Oct</option>
-          <option value="11">Nov</option>
-          <option value="12">Dec</option>
-        </select>
-        |
-        <label>Day: </label>
-        <select required class="form-control" v-model="day">
-          <option v-if="!day" disabled></option>
-          <option value="01">1</option>
-          <option value="02">2</option>
-          <option value="03">3</option>
-          <option value="04">4</option>
-          <option value="05">5</option>
-          <option value="06">6</option>
-          <option value="07">7</option>
-          <option value="08">8</option>
-          <option value="09">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-          <option value="19">19</option>
-          <option value="20">20</option>
-          <option value="21">21</option>
-          <option value="22">22</option>
-          <option value="23">23</option>
-          <option value="24">24</option>
-          <option value="25">25</option>
-          <option value="26">26</option>
-          <option value="27">27</option>
-          <option value="28">28</option>
-          <option v-if="month != '02'" value="29">29</option>
-          <option v-else-if="year % 4 == 0" value="29">29</option>
-          <option v-if="month != '02'" value="30">30</option>
-          <option
-            v-if="
-              month == '01' ||
-                month == '03' ||
-                month == '05' ||
-                month == '07' ||
-                month == '08' ||
-                month == '10' ||
-                month == '12'
-            "
-            value="31"
-            >31</option
-          >
-        </select>
-
-        <!-- <input type="text" class="form-control" v-model="user.birth_date" /> -->
+        <label>Birth Date: </label>
+        <input
+          type="date"
+          class="btn btn-warning"
+          v-model="user.birth_date"
+          :max="minAge"
+        />
       </div>
 
       <!-- Current Location should be able to get actual Location -->
@@ -278,8 +201,7 @@
 
 <script>
 import axios from "axios";
-// import VuePlaceAutocomplete from "vue-place-autocomplete";
-// Vue.use(VuePlaceAutocomplete);
+import moment from "moment";
 
 export default {
   data: function() {
@@ -287,9 +209,6 @@ export default {
       changePassword: false,
       address: "",
       minAge: "",
-      maxAge: "",
-      minDistance: "",
-      maxDistance: "",
       years: [],
       birthDate: "",
       month: "",
@@ -314,25 +233,21 @@ export default {
         this.year = `${this.birthDate[0]}`;
       }
     });
-    let i = 1920;
-    while (i <= 2020 - 18) {
-      this.years.push(`${i}`);
-      i++;
-    }
+    this.minAge = moment()
+      .subtract(18, "years")
+      .format("YYYY-MM-DD");
   },
   methods: {
     updateUser: function() {
+      console.log(this.user.birth_date);
+      console.log(typeof this.user.birth_date);
       var formData = new FormData();
       if (this.image) {
         formData.append("image", this.image);
       }
-      if (this.day && this.year && this.month) {
-        formData.append("year", this.year);
-        formData.append("month", this.month);
-        formData.append("day", this.day);
-      }
       formData.append("name", this.user.name);
       formData.append("email", this.user.email);
+      formData.append("birth_date", this.user.birth_date);
       formData.append("old_password", this.oldPassword);
       formData.append("new_password", this.newPassword);
       formData.append(
