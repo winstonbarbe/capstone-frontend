@@ -91,14 +91,13 @@
         </select>
       </div>
 
-      <!-- Pronouns Dropdown Select -->
       <div class="form-group">
-        <label>Pronouns: </label>
-        <select class="form-control" v-model="user.pronouns">
-          <option v-if="!user.pronouns" disabled></option>
-          <option value="He/Him">He/Him</option>
-          <option value="She/Her">She/Her</option>
-          <option value="They/Them">They/Them</option>
+        <label>Hidden From: </label>
+        <select class="form-control" v-model="user.seen_by">
+          <option v-if="!user.seen_by" disabled></option>
+          <option value="1">Men</option>
+          <option value="0">No one</option>
+          <option value="-1">Women</option>
         </select>
       </div>
 
@@ -151,6 +150,11 @@
       <div class="form-group">
         <label>Email: </label>
         <input type="text" class="form-control" v-model="user.email" />
+      </div>
+      <!-- Pronouns Dropdown Select -->
+      <div class="form-group">
+        <label>Pronouns: </label>
+        <input type="text" class="form-control" v-model="user.pronouns" />
       </div>
 
       <!-- Password -->
@@ -259,6 +263,7 @@ export default {
       formData.append("ascending_sign", this.user.ascending_sign);
       formData.append("gender", this.user.gender);
       formData.append("interested_in", this.user.interested_in);
+      formData.append("seen_by", this.user.seen_by);
       formData.append("pronouns", this.user.pronouns);
       formData.append("current_location", this.user.current_location);
       formData.append("bio", this.user.bio);

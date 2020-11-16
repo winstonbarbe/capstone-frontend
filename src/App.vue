@@ -1,44 +1,95 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link v-if="isLoggedIn()" to="/users">Compatibles</router-link>
-      <span v-if="isLoggedIn()"> | </span>
-      <router-link v-if="isLoggedIn()" to="/matches">Matches</router-link>
-      <span v-if="isLoggedIn()"> | </span>
-      <router-link v-if="isLoggedIn()" :to="`/users/${getUserId()}`"
-        >My Account</router-link
-      >
-      <router-link v-if="!isLoggedIn()" to="/signup">Signup</router-link> |
-      <router-link v-if="!isLoggedIn()" to="/login">Login</router-link>
-      <router-link v-if="isLoggedIn()" to="/logout">Logout</router-link>
-    </div>
+    <!-- Nav Bar -->
+    <nav class="navbar custom-menu navbar-expand-lg navbar-light bg-white">
+      <div class="container">
+        <a class="navbar-brand" href="index.html"
+          ><img src="/images/logo.png" alt=""
+        /></a>
+        <button
+          class="navbar-toggler collapsed"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbar-toggle"
+          aria-controls="navbar-toggle"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="icon-bar top-bar"></span>
+          <span class="icon-bar middle-bar"></span>
+          <span class="icon-bar bottom-bar"></span>
+          <span class="sr-only">Toggle navigation</span></button
+        ><!-- / navbar-toggler -->
+
+        <div class="collapse navbar-collapse" id="navbar-toggle">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">HOME</router-link>
+            </li>
+            <li v-if="isLoggedIn()" class="nav-item">
+              <router-link class="nav-link" to="/users"
+                >COMPATIBLES</router-link
+              >
+            </li>
+            <li v-if="isLoggedIn()" class="nav-item">
+              <router-link class="nav-link" to="/matches">MATCHES</router-link>
+            </li>
+            <li v-if="isLoggedIn()" class="nav-item">
+              <router-link class="nav-link" :to="`/users/${getUserId()}`"
+                >PROFILE</router-link
+              >
+            </li>
+            <li v-if="!isLoggedIn()" class="nav-item">
+              <router-link class="nav-link" to="/signup">SIGNUP</router-link>
+            </li>
+            <li v-if="!isLoggedIn()" class="nav-item">
+              <router-link class="nav-link" to="/login">LOGIN</router-link>
+            </li>
+            <li v-if="isLoggedIn()" class="nav-item">
+              <router-link class="nav-link" to="/logout">LOGOUT</router-link>
+            </li>
+          </ul>
+          <!-- / navbar-nav -->
+        </div>
+        <!-- / navbar-collapse -->
+      </div>
+      <!-- / container -->
+    </nav>
+    <!-- / navbar-light -->
+    <header class="page-header agency-page bg-white">
+      <div class="container">
+        <div class="header-content">
+          <h1>Page Name</h1>
+        </div>
+      </div>
+      <!-- / container -->
+    </header>
+
+    <!-- Footer -->
+
     <router-view />
+    <footer class="big bg-darkgrey dark">
+      <div class="container text-center">
+        <div class="row vcenter">
+          <div class="col-md-8 footer-left-area">
+            <p>
+              © 2018 <span class="text-regular">MNML</span> BY
+              <a href="https://kingstudio.ro" target="_blank">KINGSTUDIO</a>.
+            </p>
+          </div>
+          <div class="col-md-4 social-icons footer-right-area">
+            <a href="#x"><i class="fab fa-facebook-f"></i></a>
+            <a href="#x"><i class="fab fa-twitter"></i></a>
+            <a href="#x"><i class="fab fa-instagram"></i></a>
+          </div>
+          <!-- / social-icons -->
+        </div>
+        <!-- / row -->
+      </div>
+      <!-- / container -->
+    </footer>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
 
 <script>
 import moment from "moment";
@@ -64,6 +115,9 @@ export default {
     },
     lastMessageSent: function(createdAt) {
       return moment().diff(createdAt, "hours");
+    },
+    headerTitle: function(pageTitle) {
+      this.pageTitle = pageTitle;
     },
   },
 };

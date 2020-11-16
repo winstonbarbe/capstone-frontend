@@ -1,18 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="Bootstrap 4 Theme" />
+    <meta name="author" content="kingstudio.ro" />
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.png" />
+    <!-- Site Title -->
+    <title>Capstone</title>
+    <!-- Bootstrap 4 core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom Styles -->
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/animate.css" rel="stylesheet" />
+    <link href="/css/magnific-popup.css" rel="stylesheet" />
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700"
+      rel="stylesheet"
+    />
+    <link href="/css/linear-icons.css" rel="stylesheet" />
+    <link
+      href="/css/fontawesome-all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
   </head>
+
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
+    <!-- Preloader -->
+    <!-- <div id="preloader">
+      <div class="preloader">
+        <span></span>
+        <span></span>
+      </div>
+    </div> -->
+    <!-- End Preloader -->
+
+    <!-- App -->
     <div id="app"></div>
-    <!-- built files will be auto injected -->
-    
+
+    <!-- Core JavaScript -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- / Core JavaScript -->
+
+    <!-- preloader -->
+    <script src="js/preloader.js"></script>
+    <!-- / preloader -->
+
+    <!-- Portfolio Script -->
+    <script src="/js/jquery.shuffle.min.js"></script>
+    <script src="/js/portfolio.js"></script>
+    <script>
+      $(document).ready(function() {
+        if (Modernizr.touch) {
+          // show the close overlay button
+          $(".close-overlay").removeClass("hidden");
+          // handle the adding of hover class when clicked
+          $(".img").click(function(e) {
+            if (!$(this).hasClass("hover")) {
+              $(this).addClass("hover");
+            }
+          });
+          // handle the closing of the overlay
+          $(".close-overlay").click(function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (
+              $(this)
+                .closest(".img")
+                .hasClass("hover")
+            ) {
+              $(this)
+                .closest(".img")
+                .removeClass("hover");
+            }
+          });
+        } else {
+          // handle the mouseenter functionality
+          $(".img")
+            .mouseenter(function() {
+              $(this).addClass("hover");
+            })
+            // handle the mouseleave functionality
+            .mouseleave(function() {
+              $(this).removeClass("hover");
+            });
+        }
+      });
+    </script>
+    <!-- / Portfolio Script -->
+
+    <!-- LightBox -->
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script>
+      // This will create a single gallery from all elements that have class "lightbox"
+      $(".lightbox").each(function() {
+        $(this).magnificPopup({
+          delegate: "a.image-lightbox", // the selector for gallery item
+          type: "image",
+          removalDelay: 500,
+          mainClass: "mfp-fade",
+          gallery: {
+            enabled: true,
+          },
+        });
+      });
+    </script>
+    <!-- / LightBox -->
   </body>
 </html>
