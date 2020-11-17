@@ -1,6 +1,96 @@
 <template>
   <div class="users-index">
+    <div class="container p-0">
+      <!-- Compatibles filter -->
+      <ul
+        class="portfolio-filter list-inline text-center filter-bg bg-secondary"
+      >
+        <li><a href="#" data-group="all" class="active ml-2">ALL</a></li>
+        <li><a href="#" data-group="design">DESIGN</a></li>
+        <li><a href="#" data-group="illustrations">ILLUSTRATIONS</a></li>
+        <li><a href="#" data-group="photography">PHOTOGRAPHY</a></li>
+        <li class="nav-item dropdown">
+          <a aria-haspopup="true" aria-expanded="false">PORTFOLIO</a>
+          <div
+            class="dropdown-menu animated fadeIn fast"
+            aria-labelledby="dropdown1"
+          >
+            <div
+              class="row"
+              style="overflow:scroll;display:flex;max-height:270px;width:110px;"
+            >
+              <div class="col-md-6 sub-menu">
+                <a
+                  v-for="age in ages"
+                  class="dropdown-item"
+                  href="portfolio-2col.html"
+                  >{{ age }}</a
+                >
+              </div>
+              <!-- / sub-menu -->
+
+              <!-- / sub-menu -->
+            </div>
+            <!-- / row -->
+          </div>
+          <!-- / dropdown-menu -->
+        </li>
+        <!-- / dropdown -->
+      </ul>
+      <!-- / Compatibles filter -->
+    </div>
+    <div id="page-content-wrapper">
+      <section id="portfolio" class="no-gutter col3">
+        <div class="container">
+          <h3 class="section-title hidden">PORTFOLIO</h3>
+          <ul class="row portfolio lightbox list-unstyled mb-0" id="grid">
+            <!-- project -->
+            <li
+              v-for="user in users"
+              class="col-md-6 col-lg-4 project"
+              data-groups='["photography"]'
+            >
+              <figure class="portfolio-item">
+                <router-link :to="`/users/${user.id}`">
+                  <div class="hovereffect">
+                    <img
+                      class="img-responsive"
+                      :src="user.image_url"
+                      :alt="user.name"
+                    />
+                    <div class="overlay">
+                      <div class="hovereffect-title">
+                        <!-- style for a tags aren't working for router links -->
+
+                        <a>
+                          <h5 class="project-title">{{ user.name }}</h5>
+                          <p class="project-skill">{{ user.bio }}</p> </a
+                        ><!-- / project link -->
+                      </div>
+                      <!-- / hovereffect-title -->
+                    </div>
+                    <!-- / overlay -->
+                  </div>
+                </router-link>
+                <!-- / hovereffect -->
+              </figure>
+
+              <!-- / portfolio-item -->
+            </li>
+            <!-- / project -->
+          </ul>
+          <!-- / portfolio -->
+        </div>
+        <!-- / container -->
+      </section>
+    </div>
     <h1>Compatible Users</h1>
+    <ul id="aztro">
+      <li v-for="day in horoscopes">
+        <strong>Horoscope</strong>: {{ day.description }}<br />
+        <strong>Fucus Point</strong>: {{ day.mood }}
+      </li>
+    </ul>
     <button v-on:click="showFilters()">Filters</button>
     <dialog id="filter-details">
       <form method="dialog">
@@ -85,6 +175,7 @@ ul {
 <script>
 import axios from "axios";
 import moment from "moment";
+import aztroJs from "aztro-js";
 
 export default {
   data: function() {
@@ -95,6 +186,7 @@ export default {
       users: [],
       ages: [],
       miles: [],
+      horoscopes: [],
     };
   },
   created: function() {
@@ -104,6 +196,23 @@ export default {
       this.minAge = this.$parent.getUserAge() - 8;
       this.maxAge = this.$parent.getUserAge() + 8;
     });
+    axios.get(`/api/users/${this.$parent.getUserId()}`).then((user) => {
+      let userSign = user.data.sun_sign;
+      aztroJs.getAllHoroscopePromise = function(sign) {
+        return new Promise((resolve) => {
+          aztroJs.getAllHoroscope(sign, function(data) {
+            resolve(data);
+          });
+        });
+      };
+      aztroJs.getAllHoroscopePromise(userSign).then((results) => {
+        console.log(results);
+        this.horoscopes.push(results.today);
+        this.horoscopes.push(results.yesterday);
+        this.horoscopes.push(results.tomorrow);
+      });
+    });
+
     let i = 18;
     while (i < 90) {
       this.ages.push(i);

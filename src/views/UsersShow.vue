@@ -14,6 +14,9 @@
                 <h4 class="section-title mb-3">
                   {{ user.name }}
                 </h4>
+                <!-- <h4 class="section-title mb-3">
+                  {{ horoscope }}
+                </h4> -->
                 <p class="mb-3">
                   <i>({{ user.pronouns }})</i>
                   {{ $parent.age(user.birth_date) }}
@@ -84,7 +87,6 @@
                   >
                     Edit
                   </button>
-                  <span v-if=""></span>
                   <button
                     type="button"
                     class="btn btn-outline-success"
@@ -153,6 +155,8 @@ export default {
         this.hiddenFrom = "No One";
       }
     });
+
+    // this.data = this.data.today;
   },
   methods: {
     match: function(recipient) {

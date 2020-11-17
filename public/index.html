@@ -19,6 +19,7 @@
     <!-- Custom Styles -->
     <link href="/css/style.css" rel="stylesheet" />
     <link href="/css/animate.css" rel="stylesheet" />
+    <link href="/css/owl.carousel.min.css" rel="stylesheet" />
     <link href="/css/magnific-popup.css" rel="stylesheet" />
     <!-- Fonts -->
     <link
@@ -37,7 +38,7 @@
     />
   </head>
 
-  <body>
+  <body >
     <!-- Preloader -->
     <div id="preloader">
       <div class="preloader">
@@ -49,6 +50,7 @@
 
     <!-- App -->
     <div id="app"></div>
+    
 
     <!-- Core JavaScript -->
     <script src="/js/jquery.min.js"></script>
@@ -120,5 +122,123 @@
       });
     </script>
     <!-- / LightBox -->
+
+    <!-- Owl Carousel -->
+    <script src="/js/owl.carousel.min.js"></script>
+    <script>
+      $("#project-slider").owlCarousel({
+        loop: true,
+        autoplay: true,
+        margin: 0,
+        smartSpeed: 1000,
+        nav: false,
+        dots: true,
+        items: 1,
+        animateIn: "fadeIn",
+        animateOut: "fadeOut",
+      });
+    </script>
+
+    <script>
+      $("#testimonials-carousel").owlCarousel({
+        loop: true,
+        margin: 20,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 2,
+          },
+          768: {
+            items: 1,
+          },
+          1000: {
+            items: 1,
+          },
+          1024: {
+            items: 2,
+          },
+          1200: {
+            items: 3,
+          },
+        },
+      });
+    </script>
+    <!-- / Owl Carousel -->
+
+    <!-- menu-toggle Script -->
+    <script>
+      $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+    </script>
+    <!-- / menu-toggle Script -->
+ 
+     <!-- Smooth Scrolling -->
+     <script src="js/jquery.easing.min.js"></script>
+     <script src="js/smooth-scroll-nonav.js"></script>
+     <!-- / Smooth Scrolling -->
+ 
+     
+ 
+     <!-- LightBox -->
+     <script src="/js/jquery.magnific-popup.min.js"></script>
+     <script>
+       // This will create a single gallery from all elements that have class "lightbox"
+       $(".lightbox").each(function () {
+         $(this).magnificPopup({
+           delegate: "a.image-lightbox", // the selector for gallery item
+           type: "image",
+           removalDelay: 500,
+           mainClass: "mfp-fade",
+           gallery: {
+             enabled: true,
+           },
+         });
+       });
+     </script>
+     <!-- / LightBox -->
+ 
+     <!-- LightBox -->
+     <script src="/js/jquery.magnific-popup.min.js"></script>
+     <script>
+       // This will create a single gallery from all elements that have class "lightbox"
+       $(".lightbox").each(function () {
+         $(this).magnificPopup({
+           delegate: "a.image-lightbox", // the selector for gallery item
+           type: "image",
+           gallery: {
+             enabled: true,
+           },
+         });
+       });
+     </script>
+     <!-- / LightBox -->
+ 
+     <!-- facts counter -->
+     <script src="/js/jquery.countTo.js"></script>
+     <script>
+       $(".timer").countTo({
+         refreshInterval: 60,
+         formatter: function (value, options) {
+           return value.toFixed(options.decimals);
+         },
+       });
+     </script>
+     <!-- / facts counter -->
+ 
+     
+ 
+     <!-- Contact Form -->
+     <script src="/js/contact-form-validator.min.js"></script>
+     <script src="/js/contact-form.js"></script>
+     <!-- / Contact Form -->
+ 
+     <!-- Hide Nav -->
+     <script src="/js/hide-nav.js"></script>
+     <!-- / Hide Nav -->
+   </body>
   </body>
 </html>

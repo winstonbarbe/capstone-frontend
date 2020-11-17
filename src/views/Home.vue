@@ -4,18 +4,11 @@
   </div>
 </template>
 <script>
-import aztroJs from "aztro-js";
-
 export default {
   data: function() {
     return {
-      horoscope: "ascffas",
+      horoscope: "",
     };
-  },
-  created: function() {
-    this.horoscope = aztroJs.getAllHoroscope("Leo", function(res) {
-      console.log(res.today.description);
-    });
   },
 };
 </script>
