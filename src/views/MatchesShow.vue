@@ -1,74 +1,10 @@
 <template>
   <div class="matches-show">
-    <h1>Match</h1>
     <section id="project-details">
       <div class="container">
         <div class="section-w-image">
           <div class="row vtop">
             <div class="col-lg-7 project-details-image">
-              <div class="col-lg-12">
-                <h6 class="mb-3">
-                  GRAPHIC DESIGN <span class="pull-right">90%</span>
-                </h6>
-                <div class="progress">
-                  <div
-                    class="progress-bar bg-primary animated fadeInLeft first"
-                    role="progressbar"
-                    style="width: 90%; height: 10px"
-                    aria-valuenow="90"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-                <!-- / progress -->
-
-                <h6 class="mb-3">
-                  WEB DESIGN <span class="pull-right">80%</span>
-                </h6>
-                <div class="progress">
-                  <div
-                    class="progress-bar bg-primary animated fadeInLeft second"
-                    role="progressbar"
-                    style="width: 80%; height: 10px"
-                    aria-valuenow="80"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-                <!-- / progress -->
-
-                <h6 class="mb-3">
-                  PHOTOGRAPHY <span class="pull-right">95%</span>
-                </h6>
-                <div class="progress">
-                  <div
-                    class="progress-bar bg-primary animated fadeInLeft third"
-                    role="progressbar"
-                    style="width: 95%; height: 10px"
-                    aria-valuenow="95"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-                <!-- / progress -->
-
-                <h6 class="mb-3">
-                  ILLUSTRATIONS <span class="pull-right">75%</span>
-                </h6>
-                <div class="progress mb-0">
-                  <div
-                    class="progress-bar bg-primary animated fadeInLeft fourth"
-                    role="progressbar"
-                    style="width: 75%; height: 10px"
-                    aria-valuenow="75"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-                <!-- / progress -->
-              </div>
-
-              <!-- / column -->
               <div v-for="image_url in match.matcher.image_urls">
                 <img
                   :src="image_url"
@@ -139,88 +75,74 @@
                   >
                     Deny
                   </button>
-                  <br />
-                  <br />
+                  <div class="spacer">&nbsp;</div>
                   <router-link :to="`/matches/`">Back</router-link>
+                  <div class="spacer">&nbsp;</div>
 
-                  <h4 class="section-title mb-3">
+                  <!-- Messages -->
+                  <h4 v-if="match.mutual == 1" class="section-title mb-3">
                     Messages
                   </h4>
-
+                  <div class="spacer">&nbsp;</div>
                   <div
-                    style="max-height:400px;overflow:scroll;"
-                    class="project-info"
-                  >
-                    <div v-for="message in match.messages" class="info">
-                      <h6 class="mb-1">{{ message.name }}</h6>
-                      <p>{{ message.body }}</p>
-                    </div>
-                  </div>
-                  <form
-                    id="contactForm"
-                    data-toggle="validator"
                     v-if="match.mutual == 1"
+                    class="sidebar-widget"
+                    style="max-height:400px;overflow:scroll;display:flex;flex-direction:column-reverse;"
                   >
-                    <div class="row">
-                      <!-- / sub-column -->
-                      <div class="col-md-12">
-                        <div class="form-group mb-2">
-                          <textarea
-                            id="message"
-                            v-model="newMessage"
-                            class="form-control"
-                            rows="5"
-                            placeholder="new message..."
-                          ></textarea>
-                          <div class="help-block with-errors text-area"></div>
-                        </div>
-                      </div>
-                      <!-- / sub-column -->
+                    <div class="post-widget">
+                      <ul class="list-unstyled">
+                        <li v-for="message in match.messages">
+                          <div class="recent-posts">
+                            <div class="recent-post-content">
+                              <h5 class="mb-0">
+                                <a class="recent-post-title">{{
+                                  message.name
+                                }}</a>
+                              </h5>
+                              <p class="text-sm mb-1">{{ message.body }}</p>
+                              <p class="text-sm opc-75 mb-0">
+                                {{ sent(message.created_at) }}
+                              </p>
+                            </div>
+                            <!-- / recent-post-content -->
+                          </div>
+                          <!-- / recent-posts -->
+                        </li>
+                      </ul>
                     </div>
-                    <!-- / row -->
-
-                    <div class="text-center">
-                      <button
-                        type="submit"
-                        id="form-submit"
-                        class="btn btn-submit btn-primary rectangle"
-                      >
-                        <span>Send Message</span>
-                      </button>
-                      <div id="msgSubmit" class="h3 text-center hidden"></div>
-                      <div class="clearfix"></div>
-                    </div>
-                    <!-- / text-center -->
-                  </form>
-                  <!-- / contactform -->
-
-                  <!-- / container -->
-
-                  <!-- / contact-form -->
-
-                  <div v-if="match.mutual == 1">
-                    <h2>Messages</h2>
-                    <!-- Message Create -->
-                    <textarea
-                      v-model="newMessage"
-                      placeholder="new message..."
-                    ></textarea>
-                    <br />
-                    <button v-on:click="sendMessage()">Send</button>
-
-                    <div
-                      style="margin:auto;border:3px black;border-style:dotted none;width:400px;height:300px;line-height:2em;overflow:scroll;"
-                    >
-                      <div v-for="message in match.messages">
-                        <p>
-                          <strong>{{ message.name }}</strong
-                          >:
-                          {{ message.body }}
-                          <i>{{ sent(message.created_at) }}</i>
-                        </p>
-                      </div>
-                    </div>
+                    <!-- / post-widget -->
                   </div>
+                  <!-- / sidebar-widget -->
+
+                  <div v-if="match.mutual == 1" class="row">
+                    <!-- / sub-column -->
+                    <div class="col-md-12">
+                      <div class="form-group mb-2">
+                        <textarea
+                          id="message"
+                          v-model="newMessage"
+                          class="form-control"
+                          rows="5"
+                          placeholder="new message..."
+                        ></textarea>
+                        <div class="help-block with-errors text-area"></div>
+                      </div>
+                    </div>
+                    <!-- / sub-column -->
+                  </div>
+                  <!-- / row -->
+
+                  <div v-if="match.mutual == 1" class="text-center">
+                    <button
+                      v-on:click="sendMessage()"
+                      class="btn btn-submit btn-primary rectangle"
+                    >
+                      <span>Send Message</span>
+                    </button>
+                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <!-- / text-center -->
 
                   <!-- <div class="info social-icons mb-0">
                     <a href="#x"><i class="fab fa-facebook-f mr-3"></i></a>
@@ -278,7 +200,7 @@ export default {
       received: (data) => {
         // Called when there's incoming data on the websocket for this channel
         console.log("Data from MessagesChannel:", data);
-        this.match.messages.unshift(data); // update the messages in real time
+        this.match.messages.push(data); // update the messages in real time
       },
     });
   },

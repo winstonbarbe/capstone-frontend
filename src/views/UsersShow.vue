@@ -84,6 +84,7 @@
                   >
                     Edit
                   </button>
+                  <span v-if=""></span>
                   <button
                     type="button"
                     class="btn btn-outline-success"
