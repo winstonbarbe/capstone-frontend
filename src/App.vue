@@ -56,14 +56,28 @@
       <!-- / container -->
     </nav>
     <!-- / navbar-light -->
-    <header class="page-header agency-page bg-white">
+    <!-- <header class="page-header agency-page bg-white">
       <div class="container">
         <div class="header-content">
           <h1>Page Name</h1>
         </div>
       </div>
-      <!-- / container -->
-    </header>
+    </header> -->
+    <div
+      v-if="flashMessage"
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+    >
+      {{ flashMessage }}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
     <!-- Footer -->
 
@@ -95,6 +109,11 @@
 import moment from "moment";
 import axios from "axios";
 export default {
+  data: function() {
+    return {
+      flashMessage: "",
+    };
+  },
   methods: {
     isLoggedIn: function() {
       return localStorage.getItem("jwt");

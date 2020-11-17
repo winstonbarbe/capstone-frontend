@@ -278,13 +278,15 @@ export default {
         });
     },
     destroyUser: function() {
-      axios.delete(`/api/users/${this.user.id}`).then((response) => {
-        console.log("Account Destroyed");
-        localStorage.removeItem("jwt");
-        localStorage.removeItem("user_id");
-        localStorage.removeItem("user_age");
-        this.$router.push("/login");
-      });
+      if (confirm("Are you sure you want to delete your account?")) {
+        axios.delete(`/api/users/${this.user.id}`).then((response) => {
+          console.log("Account Destroyed");
+          localStorage.removeItem("jwt");
+          localStorage.removeItem("user_id");
+          localStorage.removeItem("user_age");
+          this.$router.push("/login");
+        });
+      }
     },
     setFile: function(event) {
       if (event.target.files.length > 0) {

@@ -136,6 +136,8 @@ export default {
       };
       axios.post(`/api/matches`, params).then((response) => {
         console.log("Match Created", response.data);
+        this.$parent.flashMessage =
+          "Match Sent! Go to Matches to see your matches and received matches";
         var index = this.users.indexOf(recipient);
         this.users.splice(index, 1);
       });

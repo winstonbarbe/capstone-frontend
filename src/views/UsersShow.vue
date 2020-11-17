@@ -5,56 +5,114 @@
         <div class="section-w-image">
           <div class="row vtop">
             <div class="col-lg-7 project-details-image">
-              <div>
-                <img :src="user.image_url" :alt="user.name" class="mb-3 mt-3" />
+              <div v-for="image_url in user.image_urls">
+                <img :src="image_url" :alt="user.name" class="mb-3 mt-3" />
               </div>
             </div>
             <div class="col-lg-5 section-description has-sticky-top">
               <div class="sticky-top">
                 <h4 class="section-title mb-3">
                   {{ user.name }}
-                  <!-- ({{
-                    user.pronouns | capitalize
-                  }}) -->
                 </h4>
+                <p class="mb-3">
+                  <i>({{ user.pronouns }})</i>
+                  {{ $parent.age(user.birth_date) }}
+                </p>
                 <p class="mb-3">
                   {{ user.bio }}
                 </p>
                 <div class="project-info">
+                  <!-- Astrological -->
                   <div class="info">
-                    <h6 class="mb-1">Signs</h6>
-                    <p>KingStudio</p>
+                    <h6 class="mb-1">Sun</h6>
+                    <p>{{ user.sun_sign }}</p>
+                  </div>
+                  <div class="info">
+                    <h6 class="mb-1">Moon</h6>
+                    <p>{{ user.moon_sign }}</p>
+                  </div>
+                  <div class="info">
+                    <h6 class="mb-1">Ascending</h6>
+                    <p>{{ user.ascending_sign }}</p>
                   </div>
                   <!-- / info -->
 
-                  <div class="info">
-                    <h6 class="mb-1">SKILLS</h6>
-                    <p>Photography</p>
+                  <!-- If not Current User -->
+                  <div v-if="user.ranking > 7" class="info">
+                    <h6 class="mb-1">Compatibility</h6>
+                    <p>Super</p>
+                  </div>
+                  <div v-if="user.id != $parent.getUserId()" class="info">
+                    <h6 class="mb-1">Distance</h6>
+                    <p>{{ user.distance }} Miles Away</p>
+                  </div>
+
+                  <!-- If Current User Info -->
+                  <div v-if="$parent.currentUser(user)" class="info">
+                    <h6 class="mb-1">
+                      Email
+                    </h6>
+                    <p style="text-transform:lowercase;">{{ user.email }}</p>
                   </div>
                   <!-- / info -->
 
-                  <div class="info">
-                    <h6 class="mb-1">DELIVERED</h6>
-                    <p>27 Sep 2018</p>
+                  <div v-if="$parent.currentUser(user)" class="info">
+                    <h6 class="mb-1">Gender</h6>
+                    <p>{{ user.gender }}</p>
                   </div>
                   <!-- / info -->
 
-                  <div class="info">
-                    <h6 class="mb-1">WEBSITE</h6>
-                    <p>
-                      <a href="#x" class="project-info-link"
-                        >www.kingstudio.ro</a
-                      >
-                    </p>
+                  <div v-if="$parent.currentUser(user)" class="info">
+                    <h6 class="mb-1">Hidden From</h6>
+                    <p>{{ hiddenFrom }}</p>
                   </div>
                   <!-- / info -->
 
-                  <div class="info social-icons mb-0">
+                  <div v-if="$parent.currentUser(user)" class="info">
+                    <h6 class="mb-1">Interested In</h6>
+                    <p>{{ user.interested_in }}</p>
+                  </div>
+                  <!-- / info -->
+
+                  <!-- Buttons -->
+
+                  <button
+                    type="button"
+                    class="btn btn-info"
+                    v-if="$parent.currentUser(user)"
+                    v-on:click="$router.push(`/users/${user.id}/edit`)"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-success"
+                    v-if="!$parent.currentUser(user)"
+                    v-on:click="match(user)"
+                  >
+                    Match
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    v-if="!$parent.currentUser(user)"
+                    v-on:click="dismissCompatible(user)"
+                  >
+                    Dismiss
+                  </button>
+                  <br />
+                  <br />
+                  <router-link v-if="!$parent.currentUser(user)" :to="`/users/`"
+                    >Back</router-link
+                  >
+
+                  <!-- <div class="info social-icons mb-0">
                     <a href="#x"><i class="fab fa-facebook-f mr-3"></i></a>
                     <a href="#x"><i class="fab fa-twitter mr-3"></i></a>
                     <a href="#x"><i class="fab fa-pinterest mr-3"></i></a>
                     <a href="#x"><i class="fab fa-google-plus-g mr-3"></i></a>
-                  </div>
+                  </div> -->
                   <!-- / info -->
                 </div>
                 <!-- / project-info -->
@@ -68,67 +126,7 @@
       </div>
       <!-- / container -->
     </section>
-    <!-- / project-details -->
-    <img :src="user.image_url" :alt="user.name" />
-
-    <h1>
-      {{ user.name }}
-    </h1>
-    <!-- For age add moment js -->
-    <p>
-      (<i>{{ user.pronouns }}</i
-      >) <i>{{ $parent.age(user.birth_date) }}</i>
-    </p>
-    <p v-if="user.ranking > 7">Compatibility: <strong>Super</strong></p>
-    <p>
-      <strong><u>Signs</u></strong
-      >:
-    </p>
-    <ul>
-      <li>
-        Sun: <strong>{{ user.sun_sign }}</strong>
-      </li>
-      <li>
-        Moon: <strong>{{ user.moon_sign }}</strong>
-      </li>
-      <li>
-        Ascendent: <strong>{{ user.ascending_sign }}</strong>
-      </li>
-    </ul>
-    <p v-if="user.ranking > 7">Compatibility: <strong>Super</strong></p>
-    <p v-if="user.id != $parent.getUserId()">
-      Distance: <strong>{{ user.distance }}</strong>
-    </p>
-    <p>
-      <strong>About:</strong><br />
-      {{ user.bio }}
-    </p>
-    <!-- Account info for current user -->
-    <p v-if="$parent.currentUser(user)"><strong>Account Info</strong></p>
-    <p v-if="$parent.currentUser(user)">Email: {{ user.email }}</p>
-    <p v-if="$parent.currentUser(user)">Gender: {{ user.gender }}</p>
-    <p v-if="$parent.currentUser(user)">Hidden From: {{ hiddenFrom }}</p>
-    <p v-if="$parent.currentUser(user)">
-      Interested In: {{ user.interested_in }}
-    </p>
-    <router-link v-if="$parent.currentUser(user)" :to="`/users/${user.id}/edit`"
-      >Edit</router-link
-    >
-    <button v-if="!$parent.currentUser(user)" v-on:click="match(user)">
-      Match
-    </button>
-    <button
-      v-if="!$parent.currentUser(user)"
-      v-on:click="dismissCompatible(user)"
-    >
-      Dismiss
-    </button>
-    <button
-      v-if="!$parent.currentUser(user)"
-      v-on:click="$router.push(`/users`)"
-    >
-      Back
-    </button>
+    <!-- / project-details -->s
   </div>
 </template>
 
@@ -187,12 +185,18 @@ export default {
       });
     },
   },
-  filters: {
-    capitalize: function(value) {
-      if (!value) return "";
-      value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1);
-    },
-  },
+  // filters: {
+  //   capitalize: function(value) {
+  //     if (!value) return "";
+  //     value = value.toString();
+  //     return value.charAt(0).toUpperCase() + value.slice(1);
+  //   },
+  // },
 };
 </script>
+
+<style>
+div {
+  text-transform: uppercase;
+}
+</style>
