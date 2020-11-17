@@ -6,6 +6,69 @@
         <div class="section-w-image">
           <div class="row vtop">
             <div class="col-lg-7 project-details-image">
+              <div class="col-lg-12">
+                <h6 class="mb-3">
+                  GRAPHIC DESIGN <span class="pull-right">90%</span>
+                </h6>
+                <div class="progress">
+                  <div
+                    class="progress-bar bg-primary animated fadeInLeft first"
+                    role="progressbar"
+                    style="width: 90%; height: 10px"
+                    aria-valuenow="90"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <!-- / progress -->
+
+                <h6 class="mb-3">
+                  WEB DESIGN <span class="pull-right">80%</span>
+                </h6>
+                <div class="progress">
+                  <div
+                    class="progress-bar bg-primary animated fadeInLeft second"
+                    role="progressbar"
+                    style="width: 80%; height: 10px"
+                    aria-valuenow="80"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <!-- / progress -->
+
+                <h6 class="mb-3">
+                  PHOTOGRAPHY <span class="pull-right">95%</span>
+                </h6>
+                <div class="progress">
+                  <div
+                    class="progress-bar bg-primary animated fadeInLeft third"
+                    role="progressbar"
+                    style="width: 95%; height: 10px"
+                    aria-valuenow="95"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <!-- / progress -->
+
+                <h6 class="mb-3">
+                  ILLUSTRATIONS <span class="pull-right">75%</span>
+                </h6>
+                <div class="progress mb-0">
+                  <div
+                    class="progress-bar bg-primary animated fadeInLeft fourth"
+                    role="progressbar"
+                    style="width: 75%; height: 10px"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <!-- / progress -->
+              </div>
+
+              <!-- / column -->
               <div v-for="image_url in match.matcher.image_urls">
                 <img
                   :src="image_url"
@@ -80,17 +143,34 @@
                   <br />
                   <router-link :to="`/matches/`">Back</router-link>
 
-                  <form id="contactForm" data-toggle="validator">
+                  <h4 class="section-title mb-3">
+                    Messages
+                  </h4>
+
+                  <div
+                    style="max-height:400px;overflow:scroll;"
+                    class="project-info"
+                  >
+                    <div v-for="message in match.messages" class="info">
+                      <h6 class="mb-1">{{ message.name }}</h6>
+                      <p>{{ message.body }}</p>
+                    </div>
+                  </div>
+                  <form
+                    id="contactForm"
+                    data-toggle="validator"
+                    v-if="match.mutual == 1"
+                  >
                     <div class="row">
                       <!-- / sub-column -->
                       <div class="col-md-12">
                         <div class="form-group mb-2">
                           <textarea
                             id="message"
+                            v-model="newMessage"
                             class="form-control"
                             rows="5"
-                            placeholder="*Message"
-                            required
+                            placeholder="new message..."
                           ></textarea>
                           <div class="help-block with-errors text-area"></div>
                         </div>
@@ -162,52 +242,6 @@
       <!-- / container -->
     </section>
     <!-- / project-details -->s
-
-    <!-- Match info section -->
-    <!-- -->
-    <div>
-      <img :src="`${match.matcher.image_url}`" alt="" />
-      <p>
-        <strong>{{ match.matcher.name }}</strong
-        ><br />(<i>{{ match.matcher.pronouns }}</i
-        >) <i>{{ $parent.age(match.matcher.birth_date) }}</i>
-      </p>
-      <p>
-        <strong><u>Signs</u></strong
-        >:
-      </p>
-      <ul>
-        <li>
-          Sun: <strong>{{ match.matcher.sun_sign }}</strong>
-        </li>
-        <li>
-          Moon: <strong>{{ match.matcher.moon_sign }}</strong>
-        </li>
-        <li>
-          Ascendent:
-          <strong>{{ match.matcher.ascending_sign }}</strong>
-        </li>
-      </ul>
-      <p v-if="match.super">Compatibility: <strong>Super</strong></p>
-      <p>
-        Distance:
-        <strong>{{ match.matcher.distance }}</strong>
-      </p>
-      <p>
-        <strong>About:</strong><br />
-        {{ match.matcher.bio }}
-      </p>
-    </div>
-    <button v-if="match.mutual == 1" v-on:click="unmatch(match)">
-      Unmatch
-    </button>
-    <button v-if="match.mutual == 0" v-on:click="unmatch(match)">
-      Deny
-    </button>
-    <button v-if="match.mutual == 0" v-on:click="acceptMatch(match)">
-      Accept
-    </button>
-    <button v-on:click="$router.push('/matches')">Back</button>
   </div>
 </template>
 
