@@ -9,6 +9,7 @@
   "dependencies": {
     "actioncable": "^5.2.4-4",
     "axios": "^0.21.0",
+    "aztro-js": "^0.1.5",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
     "places.js": "^1.19.0",
