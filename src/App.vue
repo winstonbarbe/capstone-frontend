@@ -3,11 +3,7 @@
     <!-- wrapper -->
     <div id="wrapper" class="center-sidebar-nav">
       <!-- side navigation -->
-      <a
-        href="#menu-toggle"
-        id="menu-toggle"
-        class="navbar-toggler collapsed white-bg"
-      >
+      <a id="menu-toggle" class="navbar-toggler collapsed white-bg">
         <span class="icon-bar top-bar"></span>
         <span class="icon-bar middle-bar"></span>
         <span class="icon-bar bottom-bar"></span> </a
@@ -17,7 +13,7 @@
       <div id="sidebar-wrapper" class="sidebar-nav">
         <ul class="sidebar-nav-inner">
           <li class="sidebar-brand">
-            <a href="#"><img src="/images/logo-dark.png" alt=""/></a>
+            <a><img src="/images/midheaven4.png" alt=""/></a>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/">HOME</router-link>
@@ -44,9 +40,9 @@
           </li>
 
           <li class="sidebar-social">
-            <a href="#" class="ml-0"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a class="ml-0"><i class="fab fa-facebook-f"></i></a>
+            <a><i class="fab fa-twitter"></i></a>
+            <a><i class="fab fa-instagram"></i></a>
           </li>
         </ul>
 
@@ -83,9 +79,9 @@
               </p>
             </div>
             <div class="col-md-4 social-icons footer-right-area">
-              <a href="#x"><i class="fab fa-facebook-f"></i></a>
-              <a href="#x"><i class="fab fa-twitter"></i></a>
-              <a href="#x"><i class="fab fa-instagram"></i></a>
+              <a href="x"><i class="fab fa-facebook-f"></i></a>
+              <a href="x"><i class="fab fa-twitter"></i></a>
+              <a href="x"><i class="fab fa-instagram"></i></a>
             </div>
             <!-- / social-icons -->
           </div>

@@ -129,7 +129,7 @@
       </div>
       <!-- / container -->
     </section>
-    <!-- / project-details -->s
+    <!-- / project-details -->
   </div>
 </template>
 

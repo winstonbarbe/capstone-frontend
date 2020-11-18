@@ -2411,7 +2411,7 @@ a.btn-social {
 }
 
 select.form-control.shop-option:not([size]):not([multiple]) {
-  height: 40px;
+  height: 30px;
 }
 
 input,
@@ -2515,7 +2515,7 @@ input[type="datetime-local"] {
 
 /*--- end of input placeholder color ---*/
 select.form-control:not([size]):not([multiple]) {
-  height: 47px;
+  height: 50px;
 }
 
 select.selector {
@@ -2524,7 +2524,7 @@ select.selector {
 
 select.multiple-selector {
   -webkit-appearance: listbox !important;
-  max-height: 55px;
+  max-height: 50px;
 }
 
 select:focus {
@@ -4766,7 +4766,7 @@ section.extra-section {
   font-size: 2.5rem;
   font-weight: bold;
   margin: 0 auto;
-  padding: 0 0 60px 0;
+  padding: 0 0 30px 0;
 }
 
 .sidebar-nav .sidebar-brand a {
@@ -4774,7 +4774,7 @@ section.extra-section {
 }
 
 .sidebar-nav .sidebar-brand img {
-  max-width: 100px;
+  max-width: 200px;
 }
 
 .sidebar-nav .sidebar-brand a:hover {
