@@ -80,50 +80,78 @@
       <!-- / Compatibles filter -->
     </div>
     <div id="page-content-wrapper">
-      <section id="portfolio" class="no-gutter col3">
+      <section id="portfolio" class="col3">
         <div class="container">
-          <h3 class="section-title hidden">PORTFOLIO</h3>
-          <ul class="row portfolio lightbox list-unstyled mb-0" id="grid">
-            <!-- project -->
-            <li
-              v-if="
-                $parent.age(user.birth_date) >= minAge &&
-                  $parent.age(user.birth_date) <= maxAge &&
-                  user.distance <= maxDistance
-              "
-              v-for="user in users"
-              class="col-md-6 col-lg-4 project"
-              data-groups='["photography"]'
-            >
-              <figure class="portfolio-item">
-                <router-link :to="`/users/${user.id}`">
-                  <div class="hovereffect">
-                    <img
-                      class="img-responsive"
-                      :src="user.image_url"
-                      :alt="user.name"
-                    />
-                    <div class="overlay">
-                      <div class="hovereffect-title">
-                        <!-- style for a tags aren't working for router links -->
+          <h1 class="section-title">Compatibles</h1>
 
-                        <a>
-                          <h5 class="project-title">{{ user.name }}</h5>
-                          <p class="project-skill">{{ user.bio }}</p> </a
-                        ><!-- / project link -->
+          <div class="row">
+            <div v-for="user in users" class="col-lg-4">
+              <div class="blog block">
+                <div class="post-image">
+                  <router-link :to="`/users/${user.id}`">
+                    <div class="hovereffect">
+                      <img
+                        class="img-responsive"
+                        :src="user.image_url"
+                        :alt="user.name"
+                      />
+                      <div class="overlay">
+                        <div class="hovereffect-title">
+                          <!-- style for a tags aren't working for router links -->
+
+                          <a>
+                            <h5 class="project-title">{{ user.name }}</h5>
+                            <p v-if="user.ranking > 7" class="project-skill">
+                              Super Compatible
+                            </p>
+                            <p v-else class="project-skill">
+                              {{ user.sun_sign }} - {{ user.moon_sign }} -
+                              {{ user.ascending_sign }}
+                            </p> </a
+                          ><!-- / project link -->
+                        </div>
+                        <!-- / hovereffect-title -->
                       </div>
-                      <!-- / hovereffect-title -->
+                      <!-- / overlay -->
                     </div>
-                    <!-- / overlay -->
-                  </div>
-                </router-link>
-                <!-- / hovereffect -->
-              </figure>
-
-              <!-- / portfolio-item -->
-            </li>
-            <!-- / project -->
-          </ul>
+                  </router-link>
+                </div>
+                <!-- / post-image -->
+                <div class="post-content bg-secondary">
+                  <h4 class="post-title">
+                    {{ user.name }} <a>{{ $parent.age(user.birth_date) }}</a
+                    ><br />
+                    <a
+                      ><i>({{ user.pronouns }})</i> - {{ user.distance }} Miles
+                      away
+                    </a>
+                  </h4>
+                  <p class="mb-3">
+                    {{ user.bio }}
+                  </p>
+                  <button
+                    type="button"
+                    class="btn btn-outline-success"
+                    v-on:click="match(user)"
+                  >
+                    Match
+                  </button>
+                  <span> - </span>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    v-on:click="dismissCompatible(user)"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+                <!-- / post-content -->
+              </div>
+              <!-- / blog-block -->
+            </div>
+            <!-- / column -->
+          </div>
+          <!-- / row -->
           <!-- / portfolio -->
         </div>
         <!-- / container -->
@@ -137,6 +165,7 @@
         <strong>Fucus Point</strong>: {{ day.mood }}
       </li>
     </ul> -->
+    <!-- {{ horoscopes }} -->
   </div>
 </template>
 
@@ -170,22 +199,30 @@ export default {
       this.minAge = this.$parent.getUserAge() - 8;
       this.maxAge = this.$parent.getUserAge() + 8;
     });
-    axios.get(`/api/users/${this.$parent.getUserId()}`).then((user) => {
-      let userSign = user.data.sun_sign;
-      aztroJs.getAllHoroscopePromise = function(sign) {
-        return new Promise((resolve) => {
-          aztroJs.getAllHoroscope(sign, function(data) {
-            resolve(data);
-          });
-        });
-      };
-      aztroJs.getAllHoroscopePromise(userSign).then((results) => {
-        console.log(results);
-        this.horoscopes.push(results.today);
-        this.horoscopes.push(results.yesterday);
-        this.horoscopes.push(results.tomorrow);
-      });
-    });
+    // axios.get(`/api/users/${this.$parent.getUserId()}`).then((user) => {
+    //   let userSign = user.data.sun_sign;
+    //   aztroJs.getAllHoroscopePromise = function(sign) {
+    //     return new Promise((resolve) => {
+    //       aztroJs.getAllHoroscope(sign, function(data) {
+    //         resolve(data);
+    //       });
+    //     });
+    //   };
+    let sign = "libra";
+    aztroJs.getAllHoroscope(
+      sign,
+      function(res) {
+        console.log(res);
+        this.horoscopes = res;
+      }.bind(this)
+    );
+    //   aztroJs.getAllHoroscopePromise(userSign).then((results) => {
+    //     console.log(results);
+    //     this.horoscopes.push(results.today);
+    //     this.horoscopes.push(results.yesterday);
+    //     this.horoscopes.push(results.tomorrow);
+    //   });
+    // });
 
     let i = 18;
     while (i < 90) {
