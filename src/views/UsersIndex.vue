@@ -5,6 +5,7 @@
       <ul
         class="portfolio-filter list-inline text-center filter-bg bg-secondary"
       >
+        <h1>COMPATIBLES</h1>
         <!-- Minimum Age Filter -->
         <li class="nav-item dropdown">
           <a aria-haspopup="true" aria-expanded="false">MINUMUM AGE</a>

@@ -1,5 +1,18 @@
 <template>
   <div class="users-show">
+    <div class="container p-0">
+      <!-- Title -->
+      <ul
+        class="portfolio-filter list-inline text-center filter-bg bg-secondary"
+      >
+        <h1 v-if="$parent.currentUser(user)">
+          My Profile
+        </h1>
+        <h1 v-if="!$parent.currentUser(user)">
+          Compatible
+        </h1>
+      </ul>
+    </div>
     <section id="project-details">
       <div class="container">
         <div class="section-w-image">

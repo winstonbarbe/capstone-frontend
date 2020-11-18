@@ -100,6 +100,7 @@ export default {
   data: function() {
     return {
       flashMessage: "",
+      mutual: true,
     };
   },
   methods: {

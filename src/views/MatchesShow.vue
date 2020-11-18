@@ -1,5 +1,13 @@
 <template>
   <div class="matches-show">
+    <div class="container p-0">
+      <!-- Compatibles filter -->
+      <ul
+        class="portfolio-filter list-inline text-center filter-bg bg-secondary"
+      >
+        <h1>MATCH</h1>
+      </ul>
+    </div>
     <section id="project-details">
       <div class="container">
         <div class="section-w-image">
