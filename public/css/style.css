@@ -5927,7 +5927,7 @@ header.video-wrapper #bgvideo {
 }
 
 .post-title a:hover {
-  color: #ada49d;
+  color: none;
 }
 
 .post-content {
