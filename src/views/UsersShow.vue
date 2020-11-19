@@ -18,8 +18,8 @@
         <div class="section-w-image">
           <div class="row vtop">
             <div class="col-lg-7 project-details-image">
-              <div v-for="image_url in user.image_urls">
-                <img :src="image_url" :alt="user.name" class="mb-3 mt-3" />
+              <div v-for="image in user.images">
+                <img :src="image.url" :alt="user.name" class="mb-3 mt-3" />
               </div>
             </div>
             <div class="col-lg-5 section-description has-sticky-top">

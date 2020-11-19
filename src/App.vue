@@ -15,9 +15,6 @@
           <li class="sidebar-brand">
             <a><img src="/images/midheaven4.png" alt=""/></a>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/">HOME</router-link>
-          </li>
           <li v-if="isLoggedIn()" class="nav-item">
             <router-link class="nav-link" to="/users">COMPATIBLES</router-link>
           </li>
@@ -33,7 +30,7 @@
             <router-link class="nav-link" to="/signup">SIGNUP</router-link>
           </li>
           <li v-if="!isLoggedIn()" class="nav-item">
-            <router-link class="nav-link" to="/login">LOGIN</router-link>
+            <router-link class="nav-link" to="/">LOGIN</router-link>
           </li>
           <li v-if="isLoggedIn()" class="nav-item">
             <router-link class="nav-link" to="/logout">LOGOUT</router-link>

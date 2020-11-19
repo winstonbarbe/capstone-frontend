@@ -86,68 +86,79 @@
           <h1 class="section-title">Compatibles</h1>
 
           <div class="row">
-            <div v-for="user in users" class="col-lg-4">
-              <div class="blog block">
-                <div class="post-image">
-                  <router-link :to="`/users/${user.id}`">
-                    <div class="hovereffect">
-                      <img
-                        class="img-responsive"
-                        :src="user.image_url"
-                        :alt="user.name"
-                      />
-                      <div class="overlay">
-                        <div class="hovereffect-title">
-                          <!-- style for a tags aren't working for router links -->
+            <div
+              v-for="user in users"
+              v-if="
+                $parent.age(user.birth_date) >= minAge &&
+                  $parent.age(user.birth_date) <= maxAge &&
+                  user.distance <= maxDistance
+              "
+              class="col-lg-4"
+            >
+              <div>
+                <div class="blog block">
+                  <div class="post-image">
+                    <router-link :to="`/users/${user.id}`">
+                      <div class="hovereffect">
+                        <img
+                          class="img-responsive"
+                          :src="user.image_url"
+                          :alt="user.name"
+                        />
+                        <div class="overlay">
+                          <div class="hovereffect-title">
+                            <!-- style for a tags aren't working for router links -->
 
-                          <a>
-                            <h5 class="project-title">{{ user.name }}</h5>
-                            <p v-if="user.ranking > 7" class="project-skill">
-                              Super Compatible
-                            </p>
-                            <p v-else class="project-skill">
-                              {{ user.sun_sign }} - {{ user.moon_sign }} -
-                              {{ user.ascending_sign }}
-                            </p> </a
-                          ><!-- / project link -->
+                            <a>
+                              <h5 class="project-title">{{ user.name }}</h5>
+                              <p v-if="user.ranking > 7" class="project-skill">
+                                Super Compatible
+                              </p>
+                              <p v-else class="project-skill">
+                                {{ user.sun_sign }} - {{ user.moon_sign }} -
+                                {{ user.ascending_sign }}
+                              </p> </a
+                            ><!-- / project link -->
+                          </div>
+                          <!-- / hovereffect-title -->
                         </div>
-                        <!-- / hovereffect-title -->
+                        <!-- / overlay -->
                       </div>
-                      <!-- / overlay -->
-                    </div>
-                  </router-link>
+                    </router-link>
+                  </div>
+                  <!-- / post-image -->
+                  <div class="post-content bg-secondary">
+                    <h4 class="post-title">
+                      {{ user.name }} <a>{{ $parent.age(user.birth_date) }}</a
+                      ><br />
+                      <a
+                        ><i>({{ user.pronouns }})</i> -
+                        {{ user.distance }} Miles away
+                      </a>
+                    </h4>
+                    <p class="mb-3">
+                      {{ user.bio }}
+                    </p>
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                      v-on:click="match(user)"
+                    >
+                      Match
+                    </button>
+                    <span> - </span>
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                      v-on:click="dismissCompatible(user)"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                  <!-- / post-content -->
                 </div>
-                <!-- / post-image -->
-                <div class="post-content bg-secondary">
-                  <h4 class="post-title">
-                    {{ user.name }} <a>{{ $parent.age(user.birth_date) }}</a
-                    ><br />
-                    <a
-                      ><i>({{ user.pronouns }})</i> - {{ user.distance }} Miles
-                      away
-                    </a>
-                  </h4>
-                  <p class="mb-3">
-                    {{ user.bio }}
-                  </p>
-                  <button
-                    type="button"
-                    class="btn btn-outline-success"
-                    v-on:click="match(user)"
-                  >
-                    Match
-                  </button>
-                  <span> - </span>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger"
-                    v-on:click="dismissCompatible(user)"
-                  >
-                    Dismiss
-                  </button>
-                </div>
-                <!-- / post-content -->
               </div>
+
               <!-- / blog-block -->
             </div>
             <!-- / column -->

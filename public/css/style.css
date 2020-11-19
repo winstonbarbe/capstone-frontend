@@ -2413,7 +2413,7 @@ a.btn-social {
 select.form-control.shop-option:not([size]):not([multiple]) {
   height: 30px;
 }
-
+option,
 input,
 textarea {
   font-family: "Montserrat", sans-serif !important;
