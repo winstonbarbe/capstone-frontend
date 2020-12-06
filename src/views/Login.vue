@@ -22,7 +22,7 @@
                 <strong
                   >Midheaven takes more than just your sun sign into
                   account</strong
-                >. Utilizing your sun, moon, ascending sign allows us to
+                >. Utilizing your sun, moon, and ascending sign allows us to
                 generate
                 <strong>a hyper-personalized dating experience</strong>.Our
                 unique system uses both natal charts and their comparison to

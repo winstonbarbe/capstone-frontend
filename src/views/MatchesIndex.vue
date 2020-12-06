@@ -109,7 +109,11 @@
                       <i>hours ago</i><br
                     /></a>
                   </h6>
-                  <button type="button" class="btn btn-outline-danger">
+                  <button
+                    v-on:click="unmatch(match)"
+                    type="button"
+                    class="btn btn-outline-danger"
+                  >
                     UNMATCH
                   </button>
                 </div>
@@ -189,17 +193,17 @@
                   <button
                     type="button"
                     class="btn btn-outline-success"
-                    v-on:click="acceptMatch(receivedMatch)"
+                    v-on:click="acceptMatch(match)"
                   >
-                    Reject
+                    Accept
                   </button>
                   <span> - </span>
                   <button
                     type="button"
                     class="btn btn-outline-danger"
-                    v-on:click="rejectMatch(receivedMatch)"
+                    v-on:click="rejectMatch(match)"
                   >
-                    Accept
+                    Reject
                   </button>
                 </div>
                 <!-- / post-content -->
