@@ -10,6 +10,9 @@
     </header>
 
     <section id="pricing" class="big-section bg-white">
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
       <div class="container">
         <form v-on:submit.prevent="updateUser()">
           <!-- Astrological and Personal -->
@@ -411,9 +414,6 @@ export default {
   data: function() {
     return {
       images: [],
-      imageOne: false,
-      imageTwo: false,
-      imageThree: false,
       changePassword: false,
       address: "",
       minAge: "",
@@ -436,13 +436,6 @@ export default {
       this.user = response.data;
       if (this.user.images) {
         this.images = this.user.images;
-        this.imageOne = true;
-        if (this.user.images[1]) {
-          this.imageTwo = true;
-          if (this.user.image[2]) {
-            this.imageThree = true;
-          }
-        }
       }
       if (response.data.birth_date) {
         this.birthDate = response.data.birth_date.split("-");
@@ -458,7 +451,7 @@ export default {
   methods: {
     updateUser: function() {
       var params = {
-        name: this.user.ame,
+        name: this.user.name,
         email: this.user.email,
         sun_sign: this.user.sun_sign,
         moon_sign: this.user.moon_sign,
